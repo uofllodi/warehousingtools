@@ -1,0 +1,135 @@
+{% load staticfiles %}
+
+<!DOCTYPE HTML>
+<!--
+	Editorial by HTML5 UP
+	html5up.net | @ajlkn
+	Free for personal and commercial use under the CCA 3.0 license (html5up.net/license)
+-->
+<html>
+	<head>
+		<title> Warehousing Apps </title>
+		<meta charset="utf-8" />
+		<meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no" />
+		<link rel="stylesheet" href= "{% static 'assets/css/main.css' %}" />
+        <script src="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.js"></script>
+        <link rel="stylesheet" href="http://cdn.pydata.org/bokeh/release/bokeh-0.13.0.min.css">
+        <script type="text/javascript" async
+            src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
+	</head>
+	<body>
+		<!-- Wrapper -->
+			<div id="wrapper">
+
+				<!-- Main -->
+					<div id="main">
+                        <div class="inner">
+							<!-- Header -->
+								<header id="header">
+									{% block top %}  {% endblock%}
+								</header>
+
+                                {% block intro %} {% endblock%}
+                                {% block main_content %} {% endblock%}
+
+						</div>
+					</div>
+
+				<!-- Sidebar -->
+					<div id="sidebar">
+						<div class="inner">
+
+							<!--
+								<section id="search" class="alt">
+									<form method="post" action="#">
+										<input type="text" name="query" id="query" placeholder="Search" />
+									</form>
+							    </section> -->
+
+							<!-- Menu -->
+								<nav id="menu">
+									<header class="major">
+										<h2>Menu</h2>
+									</header>
+									<ul>
+										<li><a href="#">Home</a></li>
+                                        <li>
+											<span class="opener">Warehouse assessment</span>
+											<ul>
+												<li><a href="#">Hotspot analysis</a></li>
+												<li><a href="#">Order profile</a></li>
+                                                <li><a href="#">Space utilization</a></li>
+											</ul>
+										</li>
+										<li>
+											<span class="opener">Warehouse Layout</span>
+											<ul>
+												<li><a href="#">Traditional Layout</a></li>
+												<li><a href="#">Fishbone Layout</a></li>
+											</ul>
+										</li>
+                                        <li><a href="/slotting">Slot profile</a></li>
+                                        <li>
+											<span class="opener">Forward area</span>
+											<ul>
+												<li><a href="#">Item slotting</a></li>
+											</ul>
+										</li>
+                                        <li>
+											<span class="opener">Warehouse design</span>
+											<ul>
+												<li><a href="#">Storage capacity</a></li>
+											</ul>
+										</li>
+									</ul>
+								</nav>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Highlights</h2>
+									</header>
+									<div class="Recent develoments">
+										<article>
+											<p> <a href=#> Fishbone designs </a>   have shown to be at least 20% more efficient than traditional designs. </p>
+										</article>
+										<article>
+											<p> Maximize space utilization in unit-load warehouse using <a href=#> multiple slot heights </a>. </p>
+										</article>
+									</div>
+								</section>
+
+							<!-- Section -->
+								<section>
+									<header class="major">
+										<h2>Get in touch</h2>
+									</header>
+									<p>  <a href="http://www.lfcardona.com"> Luis F. Cardona </a>  is a PhD student and Fulbright Scholar at the Logistics and Distribution Institute at University of Louisville </p>
+                                    <p> <a href="https://kevingue.wordpress.com/"> Kevin Gue</a>   is Professor of Industrial Engineering at the J.B. Speed School of Engineering at the University of Louisville. He is the Director of the Logistics and Distribution Institute.  </p>
+									<ul class="contact">
+										<li class="fa-envelope-o"><a href="#"> luis.cardonaolarte@louisville.edu </a></li>
+                                        <li class="fa-envelope-o"><a href="#"> kevin.gue@louisville.edu </a></li>
+                                        <li class="fa-graduation-cap" aria-hidden="true"> <a href="http://www.uofllogistics.com"> Logistics and Distribution Institute at University of Louisville </a>  </li>
+									</ul>
+								</section>
+
+							<!-- Footer -->
+								<footer id="footer">
+									<p class="copyright">&copy;  All rights reserved to Luis F. Cardona and Kevin Gue</a>.</p>
+								</footer>
+
+						</div>
+					</div>
+
+			</div>
+
+		<!-- Scripts -->
+			<script src= "{% static 'assets/js/jquery.min.js' %}"> </script>
+			<script src= "{% static 'assets/js/skel.min.js' %}"> </script>
+			<script src= "{% static 'assets/js/util.js' %}"> </script>
+			<script src= "{% static 'assets/js/main.js' %}"> </script>
+
+    {% block page_script %}  {% endblock%}
+
+	</body>
+</html>

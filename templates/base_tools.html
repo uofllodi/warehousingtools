@@ -1,0 +1,29 @@
+{% extends 'base.html' %}
+
+{% block top %}
+    {% block tool_group %} {% endblock%}
+{% endblock%}
+
+{% block intro %}
+        <section id="banner">
+            <div class="content">
+                <header>
+                    <h2> {% block tool_name %} {% endblock%} </h2>
+                    <p> {% block tool_subname %} {% endblock%} </p>
+                </header>
+                <p>  {% block tool_desc %} {% endblock%} </p>
+                <ul class="actions">
+                    <li> {% block link %} {% endblock%}  </li>
+                </ul>
+            </div>
+
+            <span class="image object">
+                    {% block video %} {% endblock%}
+            </span>
+        </section>
+{% endblock%}
+
+{% block main_content %}
+    {% block inputs %} {% endblock%}
+    {% block outputs %} {% endblock%}
+{% endblock%}

@@ -1,0 +1,175 @@
+{% extends 'base_tools.html' %}
+
+{% block tool_group %}
+    Slot profile
+{% endblock%}
+
+{% block tool_name %}
+    Slot profile in unit-load warehouses
+{% endblock%}
+
+{% block tool_desc %}
+    Ask any warehouse manager and he will probably tell you that he is running out of space and is looking for more. However, by using optimal slot profiling,
+    warehouse managers can maximize space utilization, making room for more product within the same available space.
+    We analyzed historical inventory levels and pallet heights of a data set to determine the optimal slot heights and quantities that guarantee a desired storage service level.
+{% endblock%}
+
+{% block link %}
+    <a href="http://uofllogistics.org/?project=maximizing-space-utilization" class="button big">Learn More</a>
+{% endblock%}
+
+{% block video %}
+      <iframe width="480" height="280"
+              src="https://www.youtube.com/embed/XxEzUH-bRek?rel=0;3&amp;autohide=1&amp;showinfo=0" frameborder="10" allowfullscreen>
+      </iframe>
+{% endblock%}
+
+{% block inputs %}
+    <section>
+
+        <div class="model_input">
+            <div id="fainter" style="opacity: 1">
+                <p> Our model determines the best set of slot heights \( (x) \) and quantities \( (N) \) according to the pallet heights
+                    and inventory levels provided.  The objective is to minimize the sum of the heights of all slot as a
+                    surrogate of the warehouse footprint, and the model guarantees that the warehouse desired storage
+                    service level. <!-- We assume that pallets of a sku are always of the same pallet height
+                    and that the warehouse uses a shared storage policy, i.e.,
+                    a pallet can be stowed in any slot higher than itself. -->
+                </p>
+
+                <form action="" method="post" enctype="multipart/form-data"  class='my-ajax-form'>
+                    {%  csrf_token %}
+                    <table >
+                        {{ form.as_table }}
+                    </table>
+
+                    <input type="submit" value="Run Model" class="button" style="margin-left: 5px">
+
+                </form>
+            </div>
+
+            <div id="wait" style="display: none">
+                <img src="/static/images/copper.gif" width="300" height="200" />
+            </div>
+
+
+        </div>
+
+    </section>
+{% endblock%}
+
+{% block outputs %}
+
+    {% if submitted %}
+        <section>
+            <div style="width: 95%;  display: block; margin-left: auto; margin-right: auto;" >
+                <h3> Results </h3>
+                <p> Here are the optimal slot heights for your problem and their coverage. </p>
+                <div class="model_output">
+                    <div class="row" style=" margin-top: 50px; margin-bottom: 30px">
+                        <div class="2.5u 12u$(small)" style="margin-left: 7%">
+                                <div class="table-wrapper" >
+                                    <table align="center">
+                                        <thead>
+                                            <tr>
+                                                <td colspan="2" align="center"> Slot profile </td>
+                                            </tr>
+                                            <tr>
+                                                <th>Height \( (x) \) </th>
+                                                <th>Quantity \( (N) \) </th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                                {% for xi, Ni in profile  %}
+                                                    <tr>
+                                                        <td> {{ xi }} </td>
+                                                        <td> {{ Ni }} </td>
+                                                    </tr>
+                                                {% endfor %}
+                                        </tbody>
+                                    </table>
+                                </div>
+                        </div>
+                        <div  style="margin-left: 8%; width:700px">
+                             {{ div_graph1|safe }}
+                            <p> <br> Each time series represents the inventory levels of pallets
+                                that can only be stored in slots of height \( x_i \)
+                                or higher. The dash line is the number of pallet positions that the slot profile provides
+                                for that category of slots.
+                             </p>
+                        </div>
+                    </div>
+
+                    <p>
+                            The following are the expected space savings of using multiple slot types. <!-- In practice,
+                            there can be disadvantages to use too many slot types from the administrative point of view. -->
+                    </p>
+
+                    <div style=" margin-top: 50px; margin-bottom: 30px;">
+
+                        <div  style="width:700px; margin: 0 auto;">
+                             {{ div_graph2 | safe }}
+                        </div>
+
+                    </div>
+
+                </div>
+            <p> Please see <a href="http://uofllogistics.org/?project=maximizing-space-utilization"> our blog post </a>
+                for a more  details.
+            </p>
+            </div>
+            <p> {{ test_info }}</p>
+        </section>
+
+    {% endif %}
+
+{% endblock%}
+
+
+{% block page_script %}
+
+    {{ script_graph1|safe }}
+    {{ script_graph2|safe }}
+
+
+    <script type="text/javascript">
+
+        $(document).ready(function(){
+
+            var $myForm = $(".my-ajax-form");
+
+            $myForm.submit( function(event){
+                var x = $("#fainter").position();
+                $('#wait').show();
+                $('#wait').css("top", x.top);
+                $('#wait').css("left", x.left);
+
+                $('#fainter').css("opacity", 0.2);
+            });
+
+        });
+
+    </script>
+
+     <script type="text/javascript">
+
+        $(document).ready(function(){
+
+        });
+
+    </script>
+
+    {% if submitted %}
+        <script type="text/javascript">
+            $(document).ready(function () {
+                var scroll = $(window).scrollTop();
+                scroll = scroll + 2000;
+                $('html, body').animate({
+                    scrollTop: scroll
+                }, 1000);
+            });
+        </script>
+    {% endif %}
+
+
+{% endblock %}
