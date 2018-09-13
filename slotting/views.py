@@ -1,8 +1,5 @@
 from django.shortcuts import get_object_or_404, render
 from . import forms
-from . import plots
-import numpy as np
-from . import slot_profile as sp
 
 
 def read_params(request, form):
@@ -23,21 +20,10 @@ def tool_home(request):
         test_info = str("")
         if form.is_valid():
             hs, invs, alpha, L, M = read_params(request, form)
-            prob = sp.SlotHeights(hs, invs, alpha, L, M)
-            result, fvals = prob.solve()
-            x, N = result['heights'][0], result['quants'][0]
-            script_graph1, div_graph1 = plots.graph_groups_inventory(x, N*M, hs, invs)
-            script_graph2, div_graph2 = plots.graph_fvals(fvals)
 
             info = {
                 'form': form,
-                'submitted': True,
-                'profile': zip(x, N),
-                'L': L,
-                'div_graph1': div_graph1,
-                'script_graph1': script_graph1,
-                'div_graph2': div_graph2,
-                'script_graph2': script_graph2,
+                'submitted': False,
                 'test_info': test_info,
              }
         else:
