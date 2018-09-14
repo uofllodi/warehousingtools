@@ -1,0 +1,6 @@
+name: webApp
+dependencies:
+  - bokeh=0.13.0
+  - django=2.1.1
+  - scipy=1.1.0
+  - numpy=1.15.1
