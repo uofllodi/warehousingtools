@@ -12,7 +12,7 @@ class slot quantities problem
 """
 
 
-import aux_funcs as af
+from . import aux_funcs as af
 from scipy.stats import norm
 from numpy import linalg as LA
 import numpy as np
