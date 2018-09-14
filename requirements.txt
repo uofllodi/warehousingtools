@@ -15,4 +15,4 @@ tornado==5.1
 whitenoise==4.1
 scipy==1.1.0
 numpy==1.15.1
-
+bokeh==0.13.0
