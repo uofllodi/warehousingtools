@@ -1,8 +1,0 @@
-
-
-nlopt
-PyNomad
-bokeh=0.13.0
-numpy
-scipy
-sta
