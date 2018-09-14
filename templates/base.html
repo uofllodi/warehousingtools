@@ -18,7 +18,8 @@
         <script src="http://cdn.pydata.org/bokeh/release/bokeh-widgets-0.13.0.min.js"></script>
         <script type="text/javascript" async
             src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.5/MathJax.js?config=TeX-MML-AM_CHTML" async></script>
-	</head>
+	    {% block head_script %}  {% endblock%}
+    </head>
 	<body>
 		<!-- Wrapper -->
 			<div id="wrapper">

@@ -1,5 +1,10 @@
 {% extends 'base_tools.html' %}
 
+{% block head_script %}
+    {{ script_graph1|safe }}
+    {{ script_graph2|safe }}
+{% endblock%}
+
 {% block tool_group %}
     Slot profile
 {% endblock%}
@@ -127,10 +132,6 @@
 
 
 {% block page_script %}
-
-    {{ script_graph1|safe }}
-    {{ script_graph2|safe }}
-
 
     <script type="text/javascript">
 
