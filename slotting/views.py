@@ -1,7 +1,9 @@
 from django.shortcuts import get_object_or_404, render
 from . import forms
-from . import aux_funcs as af
+from . import plots
 import numpy as np
+from . import slot_profile as sp
+
 
 def read_params(request, form):
     alpha = form.cleaned_data['alpha']
@@ -21,13 +23,21 @@ def tool_home(request):
         test_info = str("")
         if form.is_valid():
             hs, invs, alpha, L, M = read_params(request, form)
-            rho, mus, sigmas = af.calc_mvn_params([50, 80], hs, invs)
-            serv = af.calc_serv(rho, mus, sigmas, [70, 480])
-            test_info =(rho, mus, sigmas, serv)
+            prob = sp.SlotHeights(hs, invs, alpha, L, M)
+            result, fvals = prob.solve()
+            x, N = result['heights'][0], result['quants'][0]
+            script_graph1, div_graph1 = plots.graph_groups_inventory(x, N*M, hs, invs)
+            script_graph2, div_graph2 = plots.graph_fvals(fvals)
 
             info = {
                 'form': form,
-                'submitted': False,
+                'submitted': True,
+                'profile': zip(x, N),
+                'L': L,
+                'div_graph1': div_graph1,
+                'script_graph1': script_graph1,
+                'div_graph2': div_graph2,
+                'script_graph2': script_graph2,
                 'test_info': test_info,
              }
         else:
@@ -43,6 +53,6 @@ def tool_home(request):
 
     else:
         form = forms.SlotProfileDataForm()
-        return render(request, 'slotting/tool_home.html', {'form': form, 'submitted': False, 'test_info': ""})
+        return render(request, 'slotting/tool_home.html', {'form': form, 'submitted': False})
 
 
