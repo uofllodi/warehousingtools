@@ -29,6 +29,9 @@ def tool_home(request):
             script_graph1, div_graph1 = plots.graph_groups_inventory(x, N*M, hs, invs)
             script_graph2, div_graph2 = plots.graph_fvals(fvals)
 
+            test_info = ( script_graph1, div_graph1, script_graph2, div_graph2)
+
+
             info = {
                 'form': form,
                 'submitted': True,
