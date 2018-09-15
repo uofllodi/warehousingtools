@@ -9,7 +9,6 @@ gunicorn = "==19.9.0"
 bokeh = "==0.13.0"
 scipy = "==1.1.0"
 numpy = "==1.15.1"
-Python = "==3.6"
 Django = "==2.1.1"
 
 [dev-packages]
