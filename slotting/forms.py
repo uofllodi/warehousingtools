@@ -10,9 +10,9 @@ class SlotProfileDataForm(forms.Form):
     alpha = forms.DecimalField(min_value=50, max_value=99.99999, label='Desired Storage Service Level', initial=97.5)
     b = forms.DecimalField(min_value=0, label='Vertical clearance within slot', initial=10)
     M = forms.IntegerField(min_value=1, label= 'Pallet positions per slot', initial=2)
-    hs = forms.FileField(label='Pallet height of each sku', help_text= mark_safe("1D array. Download an <a href='https://github.com/pipete40/files_repository/blob/master/hs.csv'> example </a> "),
+    hs = forms.FileField(label='Pallet height of each sku', help_text= mark_safe("1D array. Download an <a href='http://www.mediafire.com/file/wd31fh7bpxscd48/hs.csv/file'> example </a> "),
                          widget=forms.FileInput(attrs={'accept': ".csv"})) #validators = [validators.validate_hs])
-    invs = forms.FileField(label='Inventory level of each sku',help_text= mark_safe("2D array (skus, time-periods). Download an <a href='https://github.com/pipete40/files_repository/blob/master/invs.csv'> example </a>"),
+    invs = forms.FileField(label='Inventory level of each sku',help_text= mark_safe("2D array (skus, time-periods). Download an <a href='http://www.mediafire.com/file/pkhya6efx7dvddb/invs.csv/file'> example </a>"),
                            widget=forms.FileInput(attrs={'accept': ".csv"})) # ()
 
 
