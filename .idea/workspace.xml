@@ -2,7 +2,9 @@
 <project version="4">
   <component name="ChangeListManager">
     <list default="true" id="bf0fcf2c-e532-4beb-ac10-a724399dd8af" name="Default" comment="">
-      <change beforePath="$PROJECT_DIR$/slotting/views.py" beforeDir="false" afterPath="$PROJECT_DIR$/slotting/views.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slotting/forms.py" beforeDir="false" afterPath="$PROJECT_DIR$/slotting/forms.py" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/slotting/hs.csv" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/slotting/invs.csv" beforeDir="false" />
     </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
@@ -97,7 +99,7 @@
         <counts>
           <entry key="Procfile" value="1" />
           <entry key="html" value="2" />
-          <entry key="py" value="4" />
+          <entry key="py" value="5" />
           <entry key="txt" value="1" />
         </counts>
       </usages-collector>
@@ -105,19 +107,19 @@
         <counts>
           <entry key="HTML" value="2" />
           <entry key="PLAIN_TEXT" value="2" />
-          <entry key="Python" value="4" />
+          <entry key="Python" value="5" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="89" />
-          <entry key="py" value="199" />
+          <entry key="py" value="258" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="89" />
-          <entry key="Python" value="199" />
+          <entry key="Python" value="258" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -144,13 +146,25 @@
           </provider>
         </entry>
       </file>
-      <file pinned="false" current-in-tab="true">
+      <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/slotting/templates/slotting/tool_home.html">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="2992">
-              <caret line="138" lean-forward="true" selection-start-line="138" selection-end-line="138" />
+            <state relative-caret-position="814">
+              <caret line="39" column="48" lean-forward="true" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
               <folding>
                 <element signature="n#block#4;n#!!top" />
+              </folding>
+            </state>
+          </provider>
+        </entry>
+      </file>
+      <file pinned="false" current-in-tab="true">
+        <entry file="file://$PROJECT_DIR$/slotting/forms.py">
+          <provider selected="true" editor-type-id="text-editor">
+            <state relative-caret-position="330">
+              <caret line="15" column="85" selection-start-line="15" selection-start-column="85" selection-end-line="15" selection-end-column="85" />
+              <folding>
+                <element signature="e#0#24#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -159,22 +173,10 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/slotting/views.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="704">
+            <state relative-caret-position="589">
               <caret line="32" selection-start-line="32" selection-end-line="32" />
               <folding>
                 <element signature="e#0#54#0" expanded="true" />
-              </folding>
-            </state>
-          </provider>
-        </entry>
-      </file>
-      <file pinned="false" current-in-tab="false">
-        <entry file="file://$PROJECT_DIR$/slotting/plots.py">
-          <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="1122">
-              <caret line="51" column="28" selection-start-line="51" selection-start-column="18" selection-end-line="51" selection-end-column="28" />
-              <folding>
-                <element signature="e#1#19#0" expanded="true" />
               </folding>
             </state>
           </provider>
@@ -256,7 +258,6 @@
         <option value="$PROJECT_DIR$/webApp/validators.py" />
         <option value="$PROJECT_DIR$/slotting/validators.py" />
         <option value="$PROJECT_DIR$/static/assets/css/main.css" />
-        <option value="$PROJECT_DIR$/slotting/forms.py" />
         <option value="$PROJECT_DIR$/slotting/plots.py" />
         <option value="$PROJECT_DIR$/slotting/slot_profile.py" />
         <option value="$PROJECT_DIR$/slotting/aux_funcs.py" />
@@ -265,6 +266,7 @@
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/templates/base.html" />
         <option value="$PROJECT_DIR$/slotting/views.py" />
+        <option value="$PROJECT_DIR$/slotting/forms.py" />
       </list>
     </option>
   </component>
@@ -277,7 +279,7 @@
   <component name="ProjectFrameBounds" extendedState="4">
     <option name="x" value="273" />
     <option name="y" value="33" />
-    <option name="width" value="2680" />
+    <option name="width" value="3426" />
     <option name="height" value="2127" />
   </component>
   <component name="ProjectView">
@@ -489,10 +491,10 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="273" y="33" width="2680" height="2127" extended-state="4" />
+    <frame x="273" y="33" width="3426" height="2127" extended-state="4" />
     <editor active="true" />
     <layout>
-      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.37012988" />
+      <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.28804994" />
       <window_info id="Structure" order="1" weight="0.25" />
       <window_info id="Favorites" order="2" side_tool="true" />
       <window_info anchor="bottom" id="Message" order="0" />
@@ -683,13 +685,6 @@
       </provider>
     </entry>
     <entry file="file://$PROJECT_DIR$/requ.txt" />
-    <entry file="file://$PROJECT_DIR$/slotting/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state>
-          <caret line="3" column="18" selection-start-line="3" selection-start-column="18" selection-end-line="3" selection-end-column="18" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/slotting/aux_funcs.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="743">
@@ -707,17 +702,34 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="374">
-          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/Procfile">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="44">
           <caret line="2" selection-start-line="2" selection-end-line="2" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/slotting/templates/slotting/tool_home.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="814">
+          <caret line="39" column="48" lean-forward="true" selection-start-line="39" selection-start-column="48" selection-end-line="39" selection-end-column="48" />
+          <folding>
+            <element signature="n#block#4;n#!!top" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base_tools.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="528">
+          <caret line="24" selection-start-line="24" selection-end-line="24" />
+        </state>
+      </provider>
+    </entry>
+    <entry file="file://$PROJECT_DIR$/templates/base.html">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="374">
+          <caret line="17" column="26" selection-start-line="17" selection-start-column="26" selection-end-line="17" selection-end-column="26" />
         </state>
       </provider>
     </entry>
@@ -731,16 +743,9 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/templates/base_tools.html">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="528">
-          <caret line="24" selection-start-line="24" selection-end-line="24" />
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/slotting/views.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="704">
+        <state relative-caret-position="589">
           <caret line="32" selection-start-line="32" selection-end-line="32" />
           <folding>
             <element signature="e#0#54#0" expanded="true" />
@@ -748,12 +753,12 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/slotting/templates/slotting/tool_home.html">
+    <entry file="file://$PROJECT_DIR$/slotting/forms.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="2992">
-          <caret line="138" lean-forward="true" selection-start-line="138" selection-end-line="138" />
+        <state relative-caret-position="330">
+          <caret line="15" column="85" selection-start-line="15" selection-start-column="85" selection-end-line="15" selection-end-column="85" />
           <folding>
-            <element signature="n#block#4;n#!!top" />
+            <element signature="e#0#24#0" expanded="true" />
           </folding>
         </state>
       </provider>
