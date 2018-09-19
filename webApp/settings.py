@@ -18,7 +18,7 @@ BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
 
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/1.11/howto/deployment/checklist/
-
+"""
 # SECURITY WARNING: keep the secret key used in production secret!
 SECRET_KEY = 'b_l0deb8^g^c=sog^lon$7m-6d)lw5cez_1)eegsj7ze5ci6-!'
 
@@ -26,6 +26,24 @@ SECRET_KEY = 'b_l0deb8^g^c=sog^lon$7m-6d)lw5cez_1)eegsj7ze5ci6-!'
 DEBUG = True
 
 ALLOWED_HOSTS = ['10.200.243.175', '127.0.0.1', '136.165.67.122']
+
+"""
+# SECURITY WARNING: don't run with debug turned on in production!
+DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'b_l0deb8^g^c=sog^lon$7m-6d)lw5cez_1)eegsj7ze5ci6-!')
+ALLOWED_HOSTS = ['*']
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+CSRF_COOKIE_SECURE = True
+SESSION_COOKIE_SECURE = True
+SECURE_CONTENT_TYPE_NOSNIFF = True
+SECURE_BROWSER_XSS_FILTER = True
+SECURE_SSL_REDIRECT = True
+SECURE_HSTS_SECONDS = 31536000
+SECURE_HSTS_INCLUDE_SUBDOMAINS = True
+SECURE_HSTS_PRELOAD = True
+X_FRAME_OPTIONS = 'DENY'
+
 
 
 # Application definition
