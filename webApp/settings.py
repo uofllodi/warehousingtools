@@ -155,10 +155,10 @@ django_heroku.settings(locals())
 RQ_QUEUES = {
     'default': {
         'HOST': 'localhost',
-        'PORT': 6379,
+        'PORT': '6379',
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
         'DB': 0,
-        'PASSWORD': 'some-password',
-        'DEFAULT_TIMEOUT': 360,
+        'DEFAULT_TIMEOUT': 1000,
     },
     'with-sentinel': {
        'SENTINELS': [('localhost', 26736), ('localhost', 26737)],
@@ -168,13 +168,18 @@ RQ_QUEUES = {
        'SOCKET_TIMEOUT': None,
     },
     'high': {
-        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379/0'), # If you're on Heroku
-        'DEFAULT_TIMEOUT': 360,
+        'HOST': 'localhost',
+        'PORT': '6379',
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
+        'DB': 0,
+        'DEFAULT_TIMEOUT': 1000,
     },
     'low': {
         'HOST': 'localhost',
-        'PORT': 6379,
+        'PORT': '6379',
+        'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
         'DB': 0,
+        'DEFAULT_TIMEOUT': 1000,
     }
 }
 
