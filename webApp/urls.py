@@ -14,6 +14,7 @@ Including another URLconf
     2. Add a URL to urlpatterns:  url(r'^blog/', include('blog.urls'))
 """
 from django.conf.urls import url, include
+from django.urls import path
 from django.contrib import admin
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns
 
@@ -23,6 +24,7 @@ urlpatterns = [
     url(r'^slotting/', include(('slotting.urls', 'slotting'), namespace = 'slotting')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
+    path('django-rq/', include('django_rq.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()
