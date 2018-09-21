@@ -1,7 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="bf0fcf2c-e532-4beb-ac10-a724399dd8af" name="Default" comment="" />
+    <list default="true" id="bf0fcf2c-e532-4beb-ac10-a724399dd8af" name="Default" comment="">
+      <change beforePath="$PROJECT_DIR$/webApp/settings.py" beforeDir="false" afterPath="$PROJECT_DIR$/webApp/settings.py" afterDir="false" />
+    </list>
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -111,13 +113,13 @@
       <usages-collector id="statistics.file.extensions.edit">
         <counts>
           <entry key="html" value="94" />
-          <entry key="py" value="572" />
+          <entry key="py" value="574" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.file.types.edit">
         <counts>
           <entry key="HTML" value="94" />
-          <entry key="Python" value="572" />
+          <entry key="Python" value="574" />
         </counts>
       </usages-collector>
       <usages-collector id="statistics.js.language.service.starts" />
@@ -138,8 +140,8 @@
       <file pinned="false" current-in-tab="true">
         <entry file="file://$PROJECT_DIR$/webApp/settings.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="264">
-              <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+            <state relative-caret-position="836">
+              <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
             </state>
           </provider>
         </entry>
@@ -177,8 +179,8 @@
       <file pinned="false" current-in-tab="false">
         <entry file="file://$PROJECT_DIR$/slotting/forms.py">
           <provider selected="true" editor-type-id="text-editor">
-            <state relative-caret-position="66">
-              <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+            <state relative-caret-position="154">
+              <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
               <folding>
                 <element signature="e#0#24#0" expanded="true" />
               </folding>
@@ -290,10 +292,10 @@
         <option value="$PROJECT_DIR$/Procfile" />
         <option value="$PROJECT_DIR$/slotting/templates/slotting/tool_home.html" />
         <option value="$PROJECT_DIR$/templates/base.html" />
-        <option value="$PROJECT_DIR$/slotting/forms.py" />
         <option value="$PROJECT_DIR$/webApp/urls.py" />
         <option value="$PROJECT_DIR$/slotting/urls.py" />
         <option value="$PROJECT_DIR$/slotting/views.py" />
+        <option value="$PROJECT_DIR$/slotting/forms.py" />
         <option value="$PROJECT_DIR$/webApp/settings.py" />
       </list>
     </option>
@@ -305,7 +307,7 @@
     <sorting>DEFINITION_ORDER</sorting>
   </component>
   <component name="ProjectFrameBounds" extendedState="4">
-    <option name="x" value="1026" />
+    <option name="x" value="960" />
     <option name="y" value="33" />
     <option name="width" value="2826" />
     <option name="height" value="2127" />
@@ -493,8 +495,7 @@
     </todo-panel>
   </component>
   <component name="ToolWindowManager">
-    <frame x="1026" y="33" width="2826" height="2127" extended-state="4" />
-    <editor active="true" />
+    <frame x="960" y="33" width="2826" height="2127" extended-state="4" />
     <layout>
       <window_info content_ui="combo" id="Project" order="0" visible="true" weight="0.3668596" />
       <window_info id="Structure" order="1" weight="0.25" />
@@ -736,16 +737,6 @@
         </state>
       </provider>
     </entry>
-    <entry file="file://$PROJECT_DIR$/slotting/forms.py">
-      <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="66">
-          <caret line="7" column="51" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
-          <folding>
-            <element signature="e#0#24#0" expanded="true" />
-          </folding>
-        </state>
-      </provider>
-    </entry>
     <entry file="file://$PROJECT_DIR$/webApp/urls.py">
       <provider selected="true" editor-type-id="text-editor">
         <state relative-caret-position="528">
@@ -783,10 +774,20 @@
         </state>
       </provider>
     </entry>
+    <entry file="file://$PROJECT_DIR$/slotting/forms.py">
+      <provider selected="true" editor-type-id="text-editor">
+        <state relative-caret-position="154">
+          <caret line="7" column="51" lean-forward="true" selection-start-line="7" selection-start-column="51" selection-end-line="7" selection-end-column="51" />
+          <folding>
+            <element signature="e#0#24#0" expanded="true" />
+          </folding>
+        </state>
+      </provider>
+    </entry>
     <entry file="file://$PROJECT_DIR$/webApp/settings.py">
       <provider selected="true" editor-type-id="text-editor">
-        <state relative-caret-position="264">
-          <caret line="21" column="3" selection-start-line="21" selection-start-column="3" selection-end-line="21" selection-end-column="3" />
+        <state relative-caret-position="836">
+          <caret line="47" column="3" selection-start-line="47" selection-start-column="3" selection-end-line="47" selection-end-column="3" />
         </state>
       </provider>
     </entry>
