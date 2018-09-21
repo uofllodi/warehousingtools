@@ -17,3 +17,4 @@ six==1.11.0
 tornado==5.1
 whitenoise==4.1
 django-rq==1.2.0
+path==10.3.1 

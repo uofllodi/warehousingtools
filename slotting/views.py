@@ -14,7 +14,7 @@ def read_params(request, form):
     return hs, invs, alpha, L, M
 
 
-@job
+@job("default")
 def solve_problem(hs, invs, alpha, L, M):
     prob = sp.SlotHeights(hs, invs, alpha, L, M)
     result, fvals = prob.solve()
