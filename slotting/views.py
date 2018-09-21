@@ -34,9 +34,9 @@ def tool_home(request):
         form = forms.SlotProfileDataForm(request.POST, request.FILES)
         if form.is_valid():
             hs, invs, alpha, L, M = read_params(request, form)
-            #x, N, script_graph1, div_graph1, script_graph2, div_graph2 = solve_problem.delay(hs, invs, alpha, L, M)
-            x, N, script_graph1, div_graph1, script_graph2, div_graph2 = "","","","","",""
-            job = solve_problem.delay(hs, invs, alpha, L, M)
+            x, N, script_graph1, div_graph1, script_graph2, div_graph2 = solve_problem.delay(hs, invs, alpha, L, M)
+            #x, N, script_graph1, div_graph1, script_graph2, div_graph2 = "","","","","",""
+            #job = solve_problem.delay(hs, invs, alpha, L, M)
 
             info = {
                 'form': form,

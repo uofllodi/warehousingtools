@@ -67,7 +67,7 @@
 
     {% if submitted %}
 
-        {% if job.result is not None %}
+        
             <section>
                 <div style="width: 95%;  display: block; margin-left: auto; margin-right: auto;" >
                     <h3> Results </h3>
@@ -127,7 +127,7 @@
                 </div>
                 <p> {{ test_info }}</p>
             </section>
-        {% endif %}
+        
 
     {% endif %}
 
@@ -155,29 +155,6 @@
 
     </script>
 
-    {% if submitted %}
-        <script type="text/javascript">
-
-                $(document).ready(function(){
-                    var i = 1;                     //  set your counter to 1
-
-                    function myLoop () {           //  create a loop function
-                       setTimeout(function () {    //  call a 3s setTimeout when the loop is called\
-                           var a = {{ test_info }};
-                           alert("hello");          //  your code here
-                           i++;                     //  increment the counter
-                           if (i < 10 )  {            //  if the counter < 10, call the loop function
-                              myLoop();             //  ..  again which will trigger another
-                           }                        //  ..  setTimeout()
-                       }, 3000)
-                    }
-
-                    myLoop();                      //  start the loop
-
-                });
-        </script>
-
-    {% endif %}
 
     {% if submitted %}
         <script type="text/javascript">
