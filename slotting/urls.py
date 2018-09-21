@@ -1,6 +1,7 @@
-from django.conf.urls import url
+from django.urls import path, include
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.tool_home, name='tool_home'),
+    path('', views.tool_home, name='tool_home'),
+    path('django-rq/', include('django_rq.urls')),
 ]
