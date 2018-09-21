@@ -22,6 +22,7 @@ def solve_problem(hs, invs, alpha, L, M):
     script_graph1, div_graph1 = plots.graph_groups_inventory(x, N * M, hs, invs)
     script_graph2, div_graph2 = plots.graph_fvals(fvals)
     return x, N, script_graph1, div_graph1, script_graph2, div_graph2
+solve_problem.delay() # Enqueue function in "default" queue
 
 
 # Create your views here.
