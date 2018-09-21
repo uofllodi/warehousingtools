@@ -158,7 +158,7 @@ RQ_QUEUES = {
         'PORT': '6379',
         'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
         'DB': 0,
-        'DEFAULT_TIMEOUT': 1000,
+        'DEFAULT_TIMEOUT': 5000,
     },
     'with-sentinel': {
        'SENTINELS': [('localhost', 26736), ('localhost', 26737)],
@@ -172,15 +172,17 @@ RQ_QUEUES = {
         'PORT': '6379',
         'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
         'DB': 0,
-        'DEFAULT_TIMEOUT': 1000,
+        'DEFAULT_TIMEOUT': 5000,
     },
     'low': {
         'HOST': 'localhost',
         'PORT': '6379',
         'URL': os.getenv('REDISTOGO_URL', 'redis://localhost:6379'),  # If you're
         'DB': 0,
-        'DEFAULT_TIMEOUT': 1000,
+        'DEFAULT_TIMEOUT': 5000,
     }
 }
 
-RQ_EXCEPTION_HANDLERS = ['path.to.my.handler'] # If you need custom exception handlers
+RQ = {
+    'DEFAULT_RESULT_TTL': 5000,
+}

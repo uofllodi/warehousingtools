@@ -3,6 +3,7 @@ from . import forms
 from . import plots
 from . import slot_profile as sp
 from django_rq import job
+import time
 
 def read_params(request, form):
     alpha = form.cleaned_data['alpha']
@@ -15,15 +16,14 @@ def read_params(request, form):
 
 
 @job("default")
-def solve_problem(hs, invs, alpha, L, M):
+def solve_problem(hs=None, invs=None, alpha=None, L=None, M=None):
+
     prob = sp.SlotHeights(hs, invs, alpha, L, M)
     result, fvals = prob.solve()
     x, N = result['heights'][0], result['quants'][0]
     script_graph1, div_graph1 = plots.graph_groups_inventory(x, N * M, hs, invs)
     script_graph2, div_graph2 = plots.graph_fvals(fvals)
     return x, N, script_graph1, div_graph1, script_graph2, div_graph2
-solve_problem.delay() # Enqueue function in "default" queue
-
 
 # Create your views here.
 def tool_home(request):
@@ -33,9 +33,16 @@ def tool_home(request):
         test_info = str("")
         if form.is_valid():
             hs, invs, alpha, L, M = read_params(request, form)
-            x, N, script_graph1, div_graph1, script_graph2, div_graph2 = solve_problem(hs, invs, alpha, L, M)
+            #x, N, script_graph1, div_graph1, script_graph2, div_graph2 = solve_problem.delay(hs, invs, alpha, L, M)
+            x, N, script_graph1, div_graph1, script_graph2, div_graph2 = "","","","","",""
+            job = solve_problem.delay(hs, invs, alpha, L, M)
 
-            test_info = ""
+            i=0
+            while (not job.is_finished) and (i<10):
+                time.sleep(5)
+                i += 1
+
+            result = job.result
 
             info = {
                 'form': form,
@@ -46,7 +53,7 @@ def tool_home(request):
                 'script_graph1': script_graph1,
                 'div_graph2': div_graph2,
                 'script_graph2': script_graph2,
-                'test_info': test_info,
+                'test_info': result,
              }
         else:
             info = {
