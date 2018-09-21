@@ -28,7 +28,7 @@ def solve_problem(hs=None, invs=None, alpha=None, L=None, M=None):
 
 # Create your views here.
 def tool_home(request):
-    test_info = 1
+    test_info = ""
 
     if request.method == 'POST':
         form = forms.SlotProfileDataForm(request.POST, request.FILES)
