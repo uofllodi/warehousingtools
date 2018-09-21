@@ -5,7 +5,7 @@ import numpy as np
 from django.utils.safestring import mark_safe
 
 class SlotProfileDataForm(forms.Form):
-    L = forms.IntegerField(min_value=2, max_value=4, label='Number of slot types', initial=3 )
+    L = forms.IntegerField(min_value=2, max_value=3, label='Number of slot types', initial=3 )
     nskus = forms.IntegerField(min_value=10, max_value=1000, label='Number of skus', initial=100)
     alpha = forms.DecimalField(min_value=50, max_value=99.99999, label='Desired Storage Service Level', initial=97.5)
     b = forms.DecimalField(min_value=0, label='Vertical clearance within slot', initial=10)
