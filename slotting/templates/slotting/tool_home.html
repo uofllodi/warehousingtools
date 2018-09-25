@@ -1,8 +1,8 @@
 {% extends 'base_tools.html' %}
 
 {% block head_script %}
-    {{ script_graph1|safe }}
-    {{ script_graph2|safe }}
+    <p id="script_graph1" > </p>
+    <p id="script_graph2" > </p>
 {% endblock%}
 
 {% block tool_group %}
@@ -54,7 +54,8 @@
             </div>
 
             <div id="wait" style="display: none">
-                <img src="/static/images/copper.gif" width="300" height="200" />
+                <img src="/static/images/copper.gif" width="350" height="250" style="margin-left: auto; margin-right: auto;" />
+                <p id="waiting-msn" style="width: 60%; margin-left: auto; margin-right: auto; align: center"> It may take several minutes for more than 3 slot types </p>
             </div>
 
             <p> {{ test_info }}</p>
@@ -66,20 +67,62 @@
 {% block outputs %}
     <p id="rel-test"> </p>
 
-    <table align="center" id="result-table" style="display: none">
-        <thead>
-            <tr>
-                <td colspan="2" align="center"> Slot profile </td>
-            </tr>
-            <tr>
-                <th>Height \( (x) \) </th>
-                <th>Quantity \( (N) \) </th>
-            </tr>
-        </thead>
-        <tbody>
+     <section id="section-outputs", style="display: none;">
+        <div style="width: 95%;  display: block; margin-left: auto; margin-right: auto;" >
+            <h3> Results </h3>
+            <p> Here are the optimal slot heights for your problem and their coverage. </p>
+            <div class="model_output">
+                <div class="row" style=" margin-top: 50px; margin-bottom: 30px">
+                    <div class="2.5u 12u$(small)" style="margin-left: 7%">
+                            <div class="table-wrapper" >
+                                <table align="center" >
+                                    <thead>
+                                        <tr>
+                                            <td colspan="2" align="center"> Slot profile </td>
+                                        </tr>
+                                        <tr>
+                                            <th>Height \( (x) \) </th>
+                                            <th>Quantity \( (N) \) </th>
+                                        </tr>
+                                    </thead>
+                                    <tbody id="slot-profile-table">
 
-        </tbody>
-    </table>
+                                    </tbody>
+                                </table>
+                            </div>
+                    </div>
+                    <div  style="margin-left: 8%; width:700px">
+                        <div id="div_graph1"> </div>
+                        <p> <br> Each time series represents the inventory levels of pallets
+                            that can only be stored in slots of height \( x_i \)
+                            or higher. The dash line is the number of pallet positions that the slot profile provides
+                            for that category of slots.
+                         </p>
+                    </div>
+                </div>
+
+
+                <p>
+                        The following are the expected space savings of using multiple slot types. <!-- In practice,
+                        there can be disadvantages to use too many slot types from the administrative point of view. -->
+                </p>
+
+                <div style=" margin-top: 50px; margin-bottom: 30px;">
+                    <div  style="width:700px; margin: 0 auto;">
+                        <p id="div_graph2"> </p>
+                    </div>
+                </div>
+
+            </div>
+            <p> Please see <a href="http://lfcardona.com/portfolio/multiple-slot-heights-in-unit-load-warehouses-p/"> our blog post </a>
+                for a more  details.
+            </p>
+        </div>
+
+     </section>
+    <p id="rel1"> </p>
+    <p id="rel2"> </p>
+    <p id="rel3"> </p>
 
 {% endblock%}
 
@@ -89,6 +132,9 @@
     <script type="text/javascript">
         var frm = $('#slotting-form');
         var rel = $('#rel-test');
+        var rel1 = $('#rel1');
+        var rel2 = $('#rel2');
+        var rel3 = $('#rel3');
 
         frm.submit(function () {
             $.ajax({
@@ -110,12 +156,15 @@
                     $('#wait').css("top", x.top);
                     $('#wait').css("left", x.left);
                     $('#fainter').css("opacity", 0.2);
+                    $('#section-outputs').css('display', 'none');
+
                     if (data.task_id != null) {
                         get_task_info(data.task_id);
                     }
                 },
                 error: function (data) {
                     console.log("Something went wrong! A");
+                    $('#section-outputs').css('display', 'none');
                 }
             });
             return false;
@@ -134,17 +183,25 @@
                         rel.html('working');
                     }
                     else if (data.state == 'SUCCESS') {
-                        rel.html('done!  '+ data.result.profile);
+                        rel.html('');
+                        //hide waiting message
                         $('#fainter').css("opacity", 1);
                         $('#wait').css('display', 'none');
 
-                        format_table( data.result.profile);
+                        $('#section-outputs').css('display', 'inline');
+
+                        format_table('[' + data.result.x +']', '[' + data.result.N +']');
+
+                        $('#div_graph1').html( data.result.div_graph1);
+                        $('#script_graph1').html(data.result.script_graph1);
+                        $('#div_graph2').html( data.result.div_graph2);
+                        $('#script_graph2').html(data.result.script_graph2);
 
                         var scroll = $(window).scrollTop();
-                        scroll = scroll + 2000;
+                        scroll = scroll + 800;
                         $('html, body').animate({
                             scrollTop: scroll
-                        }, 1000);
+                        }, 1);
 
 
                     }
@@ -160,14 +217,25 @@
             });
         }
 
-        function format_table(profile) {
-            var table = $('#result-table');
-            table.css('display', 'block');
-            var row = table.insertRow(-1);
-            var cell1 = row.insertCell(0);
-            var cell2 = row.insertCell(1);
-            cell1.innerHTML = "sf";
-            cell2.innerHTML = profile;
+        function format_table(x, y) {
+            $('#slot-profile-table').empty();
+            var X = JSON.parse(x);
+            var Y = JSON.parse(y);
+
+            var table = document.getElementById("slot-profile-table");
+
+            for (var j = 0; j < X.length; j++) {
+                // Create an empty <tr> element and add it to the 1st position of the table:
+                var row = table.insertRow(-1);
+
+                // Insert new cells (<td> elements) at the 1st and 2nd position of the "new" <tr> element:
+                var cell1 = row.insertCell(0);
+                var cell2 = row.insertCell(1);
+
+                // Add some text to the new cells:
+                cell1.innerHTML = X[j];
+                cell2.innerHTML = Y[j];
+            }
         }
 
     </script>

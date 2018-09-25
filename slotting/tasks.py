@@ -18,7 +18,8 @@ def solve_problem(hs, invs, alpha, L, M):
     N = N.tolist()
 
     result = {
-        'profile': (x, N),
+        'x': x,
+        'N': N,
         'script_graph1': script_graph1,
         'div_graph1': div_graph1,
         'script_graph2': script_graph2,
