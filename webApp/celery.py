@@ -6,8 +6,9 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'webApp.settings')
 
 app = Celery('webApp',
-             broker='pyamqp://guest@localhost//',
+             broker="amqp://eiuqbmln:85w36fh6VkpWDJPIreq-YlJlPeMfXHfO@chimpanzee.rmq.cloudamqp.com/eiuqbmln",
              backend='rpc://',
+             broker_pool_limit=1,
              )
 
 # Using a string here means the worker doesn't have to serialize
