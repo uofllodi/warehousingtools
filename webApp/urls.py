@@ -23,7 +23,6 @@ urlpatterns = [
     url(r'^slotting/', include(('slotting.urls', 'slotting'), namespace = 'slotting')),
     url(r'^admin/', admin.site.urls),
     url(r'^$', views.home, name='home'),
-    url(r'^django-rq/', include('django_rq.urls')),
 ]
 
 urlpatterns += staticfiles_urlpatterns()

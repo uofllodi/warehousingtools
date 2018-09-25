@@ -2,7 +2,7 @@ from django.shortcuts import get_object_or_404, render
 from . import forms
 from . import plots
 from . import slot_profile as sp
-from django_rq import job
+
 import time
 
 def read_params(request, form):
@@ -15,7 +15,6 @@ def read_params(request, form):
     return hs, invs, alpha, L, M
 
 
-@job("default")
 def solve_problem(hs=None, invs=None, alpha=None, L=None, M=None):
     prob = sp.SlotHeights(hs, invs, alpha, L, M)
     result, fvals = prob.solve()
@@ -47,7 +46,7 @@ def tool_home(request):
                 'script_graph1': script_graph1,
                 'div_graph2': div_graph2,
                 'script_graph2': script_graph2,
-                'test_info': job,
+                'test_info': test_info,
              }
         else:
             info = {
