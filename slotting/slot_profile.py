@@ -60,52 +60,57 @@ class SlotHeights:
         return self.n-1
 
     # Solution methods 
+    def choose_range(self, ini=None, end=None):
 
+        if ini is None:
+            ini, end = self.ini, self.end
+
+        # include only points where there are at least one pallet within the range
+        # bounds are inclusive
+        sol_range = np.arange(ini, end + 2, 2)
+        counts, _ = np.histogram(self.hs + 0.001, bins=np.append(0, sol_range))
+        sol_range = sol_range[counts > 0]
+        return sol_range
+
+    def exhaustive(self):
+        sol_range = self.choose_range()
+        sol_space = combinations(sol_range, r=self.n)
+        func = lambda x: self.fitness(x)[0]
+
+        min_x = []
+        min_f = float("inf")
+        for sol in sol_space:
+            f = func(sol)
+            if f < min_f:
+                min_f = f
+                min_x = sol
+        return list(min_x)
+
+    def format_solution(self, x):
+
+        def format_heights(x, H):
+            x = np.asarray(x, dtype=int)
+            heights = np.array(np.ceil(x / 2) * 2, dtype=int)
+            return np.append(heights, H)
+
+        heights = format_heights(x, self.H)
+        prob_qty = SlotQuantities(self.hs, self.invs, self.alpha, heights, self.M)
+        quants, fval, serv = prob_qty.solve()
+        return {'fval': fval, 'heights': [heights], 'quants': [quants], 'serv': serv}
     
     def solve(self, alg = "recursive_heights"):
 
         # Alg can be [exhaustive, nomad, recursive_heights, 
         #                recursive_heights_hybrid]
-        
-        def format_solution(prob, x):
-            
-            def format_heights(x, H):
-                x = np.asarray(x, dtype=int)
-                heights = np.array(np.ceil(x/2)*2, dtype=int)
-                return np.append(heights, H)
-            
-            heights = format_heights(x, prob.H)
-            prob_qty = SlotQuantities(prob.hs, prob.invs, prob.alpha, heights, prob.M)
-            quants, fval, serv = prob_qty.solve()
-            return {'fval': fval, 'heights': [heights], 'quants': [quants], 'serv': serv}
-    
-        def choose_range(prob, ini=None, end=None):
-            
-            if ini is None:
-                ini, end = prob.ini, prob.end
-                
-            # include only points where there are at least one pallet within the range
-            #bounds are inclusive 
-            sol_range = np.arange(ini, end+2, 2)
-            counts, _ = np.histogram(prob.hs+0.001, bins=np.append(0, sol_range))
-            sol_range = sol_range[counts > 0]
-            return sol_range
-    
-        def exhaustive(prob):      
-            sol_range = choose_range(prob)
-            sol_space = combinations(sol_range, r=prob.n)
-            func = lambda x: prob.fitness(x)[0]
-            min_x = af.min_map(func, sol_space)
-            return min_x
-        
+
         def extend_level_exhaustive(prob, x):
             
             def feasible_solspace(prob, x, lb, ub):
                 ranges = []
-                ranges.append(choose_range(prob, math.floor(lb/2)*2,x[0]))
+                ranges.append(prob.choose_range(math.floor(lb/2)*2,x[0]))
                 for i in range(len(x)-1):
-                    ranges.append(choose_range(prob, x[i],x[i+1]))
-                ranges.append(choose_range(prob, x[-1],math.ceil(ub/2)*2))
+                    ranges.append(prob.choose_range(x[i],x[i+1]))
+                ranges.append(prob.choose_range(x[-1],math.ceil(ub/2)*2))
                 return ranges 
             
             # create solution space
@@ -126,7 +131,7 @@ class SlotHeights:
             L = prob.n + 1
             # solve for 2 slot heights problem
             prob.n = 1
-            sol = exhaustive(prob)
+            sol = prob.exhaustive()
             fvals.append(prob.fitness(sol)[0])
 
             # extend one level at the time based on previous solution
@@ -143,11 +148,11 @@ class SlotHeights:
         else:
             fvals = []
             if alg == "exhaustive":
-                sol = exhaustive(self)
+                sol = self.exhaustive(self)
             elif alg == "recursive_heights":
                 sol, fvals = recursive_heights(self)
 
-        return format_solution(self, sol), fvals
+        return self.format_solution(sol), fvals
         
 
 # class slot quantities problem

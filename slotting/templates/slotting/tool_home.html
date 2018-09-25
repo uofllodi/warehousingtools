@@ -42,7 +42,7 @@
                     a pallet can be stowed in any slot higher than itself. -->
                 </p>
 
-                <form action="" method="post" enctype="multipart/form-data"  class='my-ajax-form'>
+                <form action="" method="post" enctype="multipart/form-data"  id='slotting-form'>
                     {%  csrf_token %}
                     <table >
                         {{ form.as_table }}
@@ -64,72 +64,22 @@
 {% endblock%}
 
 {% block outputs %}
+    <p id="rel-test"> </p>
 
-    {% if submitted %}
+    <table align="center" id="result-table" style="display: none">
+        <thead>
+            <tr>
+                <td colspan="2" align="center"> Slot profile </td>
+            </tr>
+            <tr>
+                <th>Height \( (x) \) </th>
+                <th>Quantity \( (N) \) </th>
+            </tr>
+        </thead>
+        <tbody>
 
-        
-            <section>
-                <div style="width: 95%;  display: block; margin-left: auto; margin-right: auto;" >
-                    <h3> Results </h3>
-                    <p> Here are the optimal slot heights for your problem and their coverage. </p>
-                    <div class="model_output">
-                        <div class="row" style=" margin-top: 50px; margin-bottom: 30px">
-                            <div class="2.5u 12u$(small)" style="margin-left: 7%">
-                                    <div class="table-wrapper" >
-                                        <table align="center">
-                                            <thead>
-                                                <tr>
-                                                    <td colspan="2" align="center"> Slot profile </td>
-                                                </tr>
-                                                <tr>
-                                                    <th>Height \( (x) \) </th>
-                                                    <th>Quantity \( (N) \) </th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                    {% for xi, Ni in profile  %}
-                                                        <tr>
-                                                            <td> {{ xi }} </td>
-                                                            <td> {{ Ni }} </td>
-                                                        </tr>
-                                                    {% endfor %}
-                                            </tbody>
-                                        </table>
-                                    </div>
-                            </div>
-                            <div  style="margin-left: 8%; width:700px">
-                                 {{ div_graph1|safe }}
-                                <p> <br> Each time series represents the inventory levels of pallets
-                                    that can only be stored in slots of height \( x_i \)
-                                    or higher. The dash line is the number of pallet positions that the slot profile provides
-                                    for that category of slots.
-                                 </p>
-                            </div>
-                        </div>
-
-                        <p>
-                                The following are the expected space savings of using multiple slot types. <!-- In practice,
-                                there can be disadvantages to use too many slot types from the administrative point of view. -->
-                        </p>
-
-                        <div style=" margin-top: 50px; margin-bottom: 30px;">
-
-                            <div  style="width:700px; margin: 0 auto;">
-                                 {{ div_graph2 | safe }}
-                            </div>
-
-                        </div>
-
-                    </div>
-                <p> Please see <a href="http://uofllogistics.org/?project=maximizing-space-utilization"> our blog post </a>
-                    for a more  details.
-                </p>
-                </div>
-                <p> {{ test_info }}</p>
-            </section>
-        
-
-    {% endif %}
+        </tbody>
+    </table>
 
 {% endblock%}
 
@@ -137,18 +87,100 @@
 {% block page_script %}
 
     <script type="text/javascript">
+        var frm = $('#slotting-form');
+        var rel = $('#rel-test');
+
+        frm.submit(function () {
+            $.ajax({
+                type: frm.attr('method'),
+                url: frm.attr('action'),
+
+                // Form data
+                data: new FormData($('#slotting-form')[0]),
+
+                // Tell jQuery not to process data or worry about content-type
+                // You *must* include these options!
+                cache: false,
+                contentType: false,
+                processData: false,
+
+                success: function (data) {
+                    var x = $("#fainter").position();
+                    $('#wait').show();
+                    $('#wait').css("top", x.top);
+                    $('#wait').css("left", x.left);
+                    $('#fainter').css("opacity", 0.2);
+                    if (data.task_id != null) {
+                        get_task_info(data.task_id);
+                    }
+                },
+                error: function (data) {
+                    console.log("Something went wrong! A");
+                }
+            });
+            return false;
+        });
+
+        function get_task_info(task_id) {
+            $.ajax({
+                type: 'get',
+                url: 'get-task-info/',
+                data: {'task_id': task_id},
+                success: function (data) {
+                    if (data.state == 'PENDING') {
+                        rel.html('Please wait...');
+                    }
+                    else if (data.state == 'PROGRESS') {
+                        rel.html('working');
+                    }
+                    else if (data.state == 'SUCCESS') {
+                        rel.html('done!  '+ data.result.profile);
+                        $('#fainter').css("opacity", 1);
+                        $('#wait').css('display', 'none');
+
+                        format_table( data.result.profile);
+
+                        var scroll = $(window).scrollTop();
+                        scroll = scroll + 2000;
+                        $('html, body').animate({
+                            scrollTop: scroll
+                        }, 1000);
+
+
+                    }
+                    if (data.state != 'SUCCESS') {
+                        setTimeout(function () {
+                            get_task_info(task_id)
+                        }, 1000);
+                    }
+                },
+                error: function (data) {
+                    frm.html("Something went wrong! B");
+                }
+            });
+        }
+
+        function format_table(profile) {
+            var table = $('#result-table');
+            table.css('display', 'block');
+            var row = table.insertRow(-1);
+            var cell1 = row.insertCell(0);
+            var cell2 = row.insertCell(1);
+            cell1.innerHTML = "sf";
+            cell2.innerHTML = profile;
+        }
+
+    </script>
+
+
+    <!--
+    <script type="text/javascript">
 
         $(document).ready(function(){
 
             var $myForm = $(".my-ajax-form");
 
             $myForm.submit( function(event){
-                var x = $("#fainter").position();
-                $('#wait').show();
-                $('#wait').css("top", x.top);
-                $('#wait').css("left", x.left);
-
-                $('#fainter').css("opacity", 0.2);
             });
 
         });
@@ -156,8 +188,7 @@
     </script>
 
 
-    {% if submitted %}
-        <script type="text/javascript">
+    <script type="text/javascript">
             $(document).ready(function () {
                 var scroll = $(window).scrollTop();
                 scroll = scroll + 2000;
@@ -165,8 +196,9 @@
                     scrollTop: scroll
                 }, 1000);
             });
-        </script>
-    {% endif %}
+    </script>
+
+    -->
 
 
 {% endblock %}

@@ -1,0 +1,60 @@
+            <section>
+                <div style="width: 95%;  display: block; margin-left: auto; margin-right: auto;" >
+                    <h3> Results </h3>
+                    <p> Here are the optimal slot heights for your problem and their coverage. </p>
+                    <div class="model_output">
+                        <div class="row" style=" margin-top: 50px; margin-bottom: 30px">
+                            <div class="2.5u 12u$(small)" style="margin-left: 7%">
+                                    <div class="table-wrapper" >
+                                        <table align="center">
+                                            <thead>
+                                                <tr>
+                                                    <td colspan="2" align="center"> Slot profile </td>
+                                                </tr>
+                                                <tr>
+                                                    <th>Height \( (x) \) </th>
+                                                    <th>Quantity \( (N) \) </th>
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                    {% for xi, Ni in profile  %}
+                                                        <tr>
+                                                            <td> {{ xi }} </td>
+                                                            <td> {{ Ni }} </td>
+                                                        </tr>
+                                                    {% endfor %}
+                                            </tbody>
+                                        </table>
+                                    </div>
+                            </div>
+                            <div  style="margin-left: 8%; width:700px">
+                                 {{ div_graph1|safe }}
+                                <p> <br> Each time series represents the inventory levels of pallets
+                                    that can only be stored in slots of height \( x_i \)
+                                    or higher. The dash line is the number of pallet positions that the slot profile provides
+                                    for that category of slots.
+                                 </p>
+                            </div>
+                        </div>
+
+                        <p>
+                                The following are the expected space savings of using multiple slot types. <!-- In practice,
+                                there can be disadvantages to use too many slot types from the administrative point of view. -->
+                        </p>
+
+                        <div style=" margin-top: 50px; margin-bottom: 30px;">
+
+                            <div  style="width:700px; margin: 0 auto;">
+                                 {{ div_graph2 | safe }}
+                            </div>
+
+                        </div>
+
+                    </div>
+                <p> Please see <a href="http://uofllogistics.org/?project=maximizing-space-utilization"> our blog post </a>
+                    for a more  details.
+                </p>
+                </div>
+                <p> {{ test_info }}</p>
+            </section>
+

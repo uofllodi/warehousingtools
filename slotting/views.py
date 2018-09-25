@@ -1,9 +1,11 @@
-from django.shortcuts import get_object_or_404, render
 from . import forms
-from . import plots
-from . import slot_profile as sp
 
-import time
+import json
+from django.shortcuts import render
+from celery.result import AsyncResult
+from django.http import HttpResponse
+from . import tasks
+
 
 def read_params(request, form):
     alpha = form.cleaned_data['alpha']
@@ -15,50 +17,33 @@ def read_params(request, form):
     return hs, invs, alpha, L, M
 
 
-def solve_problem(hs=None, invs=None, alpha=None, L=None, M=None):
-    prob = sp.SlotHeights(hs, invs, alpha, L, M)
-    result, fvals = prob.solve()
-    x, N = result['heights'][0], result['quants'][0]
-    script_graph1, div_graph1 = plots.graph_groups_inventory(x, N * M, hs, invs)
-    script_graph2, div_graph2 = plots.graph_fvals(fvals)
-    return x, N, script_graph1, div_graph1, script_graph2, div_graph2
-
-
-
 # Create your views here.
 def tool_home(request):
-    test_info = ""
 
     if request.method == 'POST':
         form = forms.SlotProfileDataForm(request.POST, request.FILES)
         if form.is_valid():
             hs, invs, alpha, L, M = read_params(request, form)
-            x, N, script_graph1, div_graph1, script_graph2, div_graph2 = solve_problem(hs, invs, alpha, L, M)
-            #x, N, script_graph1, div_graph1, script_graph2, div_graph2 = "","","","","",""
-            #job = solve_problem.delay(hs, invs, alpha, L, M)
-
-            info = {
-                'form': form,
-                'submitted': True,
-                'profile': zip(x, N),
-                'L': L,
-                'div_graph1': div_graph1,
-                'script_graph1': script_graph1,
-                'div_graph2': div_graph2,
-                'script_graph2': script_graph2,
-                'test_info': test_info,
-             }
+            hs = hs.tolist()
+            invs = invs.tolist()
+            task = tasks.solve_problem.delay(hs, invs, alpha, L, M)
+            return HttpResponse(json.dumps({'task_id': task.id}), content_type='application/json')
         else:
-            info = {
-                'form': form,
-                'submitted': False,
-                'test_info': test_info,
-             }
-
-        return render(request, 'slotting/tool_home.html', info)
+            return HttpResponse(json.dumps({'task_id': None}), content_type='application/json')
 
     else:
         form = forms.SlotProfileDataForm()
-        return render(request, 'slotting/tool_home.html', {'form': form, 'submitted': False, 'test_info': test_info})
+        return render(request, 'slotting/tool_home.html', {'form': form})
 
 
+def get_task_info(request):
+    task_id = request.GET.get('task_id', None)
+    if task_id is not None:
+        task = AsyncResult(task_id)
+        data = {
+            'state': task.state,
+            'result': task.result,
+        }
+        return HttpResponse(json.dumps(data), content_type='application/json')
+    else:
+        return HttpResponse('No job id given.')
