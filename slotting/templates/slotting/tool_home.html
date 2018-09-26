@@ -124,11 +124,6 @@
     <p id="rel2"> </p>
     <p id="rel3"> </p>
 
-    <div>
-        <ul id="errors-display">
-
-        </ul>
-    </div>
 
 {% endblock%}
 
@@ -142,7 +137,6 @@
         var rel2 = $('#rel2');
         var rel3 = $('#rel3');
         var msn = $('#waiting-msn');
-        var errorsdisplay = $('#errors-display');
 
         frm.submit(function () {
             var x = $("#fainter").position();
@@ -184,13 +178,13 @@
                             else{
                                 $('#fainter').css("opacity", 1);
                                 $('#wait').css('display', 'none');
-                                alert('Wow. There are problems with your data ');
-                                errorsdisplay.append("<li> base</li>");
-                                rel1.text(data.errors);
-                                var messages = JSON.parse(data.errors);
-                                rel2.test(messages);
-                                errorsdisplay.append("<li> base</li>");
 
+                                var message = " ";
+
+                                for (var error in data.errors){
+                                    message += '\n     -  ' + data.errors[error][0].message;
+                                }
+                                alert(message)
                             }
                         }
                     catch(err) {  }
@@ -223,14 +217,16 @@
                         $('#fainter').css("opacity", 1);
                         $('#wait').css('display', 'none');
                         $('#section-outputs').css('display', 'inline');
+                        errorscontainer.css('display', 'none');
 
+                        //show results
                         format_table('[' + data.result.x +']', '[' + data.result.N +']');
-
                         $('#div_graph1').html( data.result.div_graph1);
                         $('#script_graph1').html(data.result.script_graph1);
                         $('#div_graph2').html( data.result.div_graph2);
                         $('#script_graph2').html(data.result.script_graph2);
 
+                        // this are the results
                         var scroll = $(window).scrollTop();
                         scroll = scroll + 800;
                         $('html, body').animate({
@@ -245,7 +241,6 @@
                         alert("Something went wrong on our server trying to solve the problem.");
                      }
                      else if (data.state != 'SUCCESS') {
-                         alert(data.state)
                             setTimeout(function () {
                                 get_task_info(task_id)
                             }, 1000);

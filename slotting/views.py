@@ -30,10 +30,7 @@ def tool_home(request):
             return HttpResponse(json.dumps({'task_id': task.id}), content_type='application/json')
         else:
             msn = form.errors.as_json()
-            msn = json.dumps([a[0]['message'] for a in json.loads(msn).values()])
-            msn = json.loads(msn)
-            print(msn)
-            return HttpResponse(json.dumps({'task_id': None, 'errors': msn}), content_type='application/json')
+            return HttpResponse(json.dumps({'task_id': None, 'errors': json.loads(msn)}), content_type='application/json')
 
     else:
         form = forms.SlotProfileDataForm()
@@ -48,7 +45,6 @@ def get_task_info(request):
         data = {
             'state': task.state,
             'result': task.result,
-            'info': '',
         }
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:

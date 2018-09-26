@@ -40,12 +40,12 @@ class SlotProfileDataForm(forms.Form):
             hs = np.genfromtxt(csvfile, delimiter=',')
         except:
             raise ValidationError(
-                _(' the pallet heights files could not be read as an array of numbers'),
+                _(' The pallet heights file could not be read as an array of numbers'),
             )
 
         if len(hs.shape) > 1:
             raise ValidationError(
-                _('the pallet heights files must be a one-dimensional array'),
+                _('The pallet heights file must be a one-dimensional array'),
             )
         elif hs.shape[0] != nskus:
             raise ValidationError(
@@ -59,7 +59,7 @@ class SlotProfileDataForm(forms.Form):
 
         if np.isnan(np.sum(hs)):
             raise ValidationError(
-                _('the pallet heights files have non-numeric characters'),
+                _('The pallet heights file have non-numeric characters'),
             )
 
         return hs
@@ -72,12 +72,12 @@ class SlotProfileDataForm(forms.Form):
             invs = np.genfromtxt(csvfile, delimiter=',')
         except:
             raise ValidationError(
-                _('the inventory levels file could not be read as an 2D array of numbers'),
+                _('The inventory levels file could not be read as an 2D array of numbers'),
             )
 
         if len(invs.shape) != 2:
             raise ValidationError(
-                _('the inventory levels file must be a 2D array'),
+                _('The inventory levels file must be a 2D array'),
             )
         elif invs.shape[0] != nskus:
             raise ValidationError(
@@ -91,7 +91,7 @@ class SlotProfileDataForm(forms.Form):
 
         if np.isnan(np.sum(invs)):
             raise ValidationError(
-                _('the inventory levels file have non-numeric characters'),
+                _('The inventory levels file have non-numeric characters'),
             )
 
         return invs
