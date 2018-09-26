@@ -38,11 +38,13 @@ def tool_home(request):
 
 def get_task_info(request):
     task_id = request.GET.get('task_id', None)
+
     if task_id is not None:
         task = AsyncResult(task_id)
         data = {
             'state': task.state,
             'result': task.result,
+            'info': '',
         }
         return HttpResponse(json.dumps(data), content_type='application/json')
     else:

@@ -55,7 +55,7 @@
 
             <div id="wait" style="display: none">
                 <img src="/static/images/copper.gif" width="350" height="250" style="margin-left: auto; margin-right: auto;" />
-                <p id="waiting-msn" style="width: 60%; margin-left: auto; margin-right: auto; align: center"> It may take several minutes for more than 3 slot types </p>
+                <p id="waiting-msn" style="width: 60%; margin-left: auto; margin-right: auto; align: center">  </p>
             </div>
 
             <p> {{ test_info }}</p>
@@ -135,6 +135,7 @@
         var rel1 = $('#rel1');
         var rel2 = $('#rel2');
         var rel3 = $('#rel3');
+        var msn = $('#waiting-msn');
 
         frm.submit(function () {
             var x = $("#fainter").position();
@@ -158,12 +159,31 @@
                 processData: false,
 
                 success: function (data) {
-                    if (data.task_id != null) {
-                        get_task_info(data.task_id);
+
+                    try {
+                        var fm =  Number(document.getElementById('id_L').value);
+                        if (fm > 2) {
+                            var computimes = [0,1,2,5,10];
+                            var time = computimes[fm];
+                            msn.html('This usually takes about ' + time + ' minutes');
+                        }
                     }
+                    catch(err) {  }
+
+                    try {
+                            if (data.task_id != null) {
+                                get_task_info(data.task_id);
+                            }
+                            else{
+                                $('#fainter').css("opacity", 1);
+                                $('#wait').css('display', 'none');
+                                alert('There are problems with your data')
+                            }
+                        }
+                    catch(err) {  }
+
                 },
                 error: function (data) {
-                    console.log("Something went wrong! A");
                     $('#fainter').css("opacity", 1);
                     $('#wait').css('display', 'none');
                 }
@@ -177,6 +197,7 @@
                 url: 'get-task-info/',
                 data: {'task_id': task_id},
                 success: function (data) {
+
                     if (data.state == 'PENDING') {
                         rel.html('Please wait...');
                     }
@@ -203,11 +224,19 @@
                             scrollTop: scroll
                         }, 1);
                     }
-                    if (data.state != 'SUCCESS') {
-                        setTimeout(function () {
-                            get_task_info(task_id)
-                        }, 1000);
-                    }
+
+                     if (data.state == 'FAILURE') {
+                        $('#fainter').css("opacity", 1);
+                        $('#wait').css('display', 'none');
+                        $('#section-outputs').css('display', 'inline');
+                        alert("Something went wrong on our server trying to solve the problem.");
+                     }
+                     else if (data.state != 'SUCCESS') {
+                         alert(data.state)
+                            setTimeout(function () {
+                                get_task_info(task_id)
+                            }, 1000);
+                     }
                 },
                 error: function (data) {
                     frm.html("Something went wrong! B");
@@ -238,33 +267,6 @@
 
     </script>
 
-
-    <!--
-    <script type="text/javascript">
-
-        $(document).ready(function(){
-
-            var $myForm = $(".my-ajax-form");
-
-            $myForm.submit( function(event){
-            });
-
-        });
-
-    </script>
-
-
-    <script type="text/javascript">
-            $(document).ready(function () {
-                var scroll = $(window).scrollTop();
-                scroll = scroll + 2000;
-                $('html, body').animate({
-                    scrollTop: scroll
-                }, 1000);
-            });
-    </script>
-
-    -->
 
 
 {% endblock %}

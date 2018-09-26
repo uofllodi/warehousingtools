@@ -2,7 +2,6 @@ from __future__ import absolute_import, unicode_literals
 from celery import shared_task, current_task
 from . import plots
 from . import slot_profile as sp
-from itertools import combinations
 import numpy as np
 
 @shared_task
