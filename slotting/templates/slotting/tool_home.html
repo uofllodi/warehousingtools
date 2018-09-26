@@ -124,6 +124,12 @@
     <p id="rel2"> </p>
     <p id="rel3"> </p>
 
+    <div>
+        <ul id="errors-display">
+
+        </ul>
+    </div>
+
 {% endblock%}
 
 
@@ -136,6 +142,7 @@
         var rel2 = $('#rel2');
         var rel3 = $('#rel3');
         var msn = $('#waiting-msn');
+        var errorsdisplay = $('#errors-display');
 
         frm.submit(function () {
             var x = $("#fainter").position();
@@ -177,7 +184,13 @@
                             else{
                                 $('#fainter').css("opacity", 1);
                                 $('#wait').css('display', 'none');
-                                alert('There are problems with your data')
+                                alert('Wow. There are problems with your data ');
+                                errorsdisplay.append("<li> base</li>");
+                                rel1.text(data.errors);
+                                var messages = JSON.parse(data.errors);
+                                rel2.test(messages);
+                                errorsdisplay.append("<li> base</li>");
+
                             }
                         }
                     catch(err) {  }

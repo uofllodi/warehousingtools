@@ -29,7 +29,11 @@ def tool_home(request):
             task = tasks.solve_problem.delay(hs, invs, alpha, L, M)
             return HttpResponse(json.dumps({'task_id': task.id}), content_type='application/json')
         else:
-            return HttpResponse(json.dumps({'task_id': None}), content_type='application/json')
+            msn = form.errors.as_json()
+            msn = json.dumps([a[0]['message'] for a in json.loads(msn).values()])
+            msn = json.loads(msn)
+            print(msn)
+            return HttpResponse(json.dumps({'task_id': None, 'errors': msn}), content_type='application/json')
 
     else:
         form = forms.SlotProfileDataForm()

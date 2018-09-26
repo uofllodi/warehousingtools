@@ -40,17 +40,16 @@ class SlotProfileDataForm(forms.Form):
             hs = np.genfromtxt(csvfile, delimiter=',')
         except:
             raise ValidationError(
-                _('could not be read as an array of numbers'),
+                _(' the pallet heights files could not be read as an array of numbers'),
             )
 
         if len(hs.shape) > 1:
             raise ValidationError(
-                _('must be a one-dimensional array'),
+                _('the pallet heights files must be a one-dimensional array'),
             )
         elif hs.shape[0] != nskus:
             raise ValidationError(
-                _('There are %(v1) pallet height, but %(v2) skus'),
-                params={'v1': str(hs.shape[0]), 'v2': str(nskus)},
+                _('There are {} pallet height, but {} skus'.format(str(hs.shape[0]), str(nskus))),
             )
 
         if np.min(hs) < 0:
@@ -60,7 +59,7 @@ class SlotProfileDataForm(forms.Form):
 
         if np.isnan(np.sum(hs)):
             raise ValidationError(
-                _('There are non-numeric characters'),
+                _('the pallet heights files have non-numeric characters'),
             )
 
         return hs
@@ -73,17 +72,16 @@ class SlotProfileDataForm(forms.Form):
             invs = np.genfromtxt(csvfile, delimiter=',')
         except:
             raise ValidationError(
-                _('could not be read as an 2D array of numbers'),
+                _('the inventory levels file could not be read as an 2D array of numbers'),
             )
 
         if len(invs.shape) != 2:
             raise ValidationError(
-                _('must be a 2D array'),
+                _('the inventory levels file must be a 2D array'),
             )
         elif invs.shape[0] != nskus:
             raise ValidationError(
-                _('There are %(v1) rows of inventory levels, but %(v2) skus'),
-                params={'v1': str(invs.shape[0]), 'v2': str(nskus)},
+                _('There are {} rows of inventory levels, but {} skus'.format(str(invs.shape[0]), str(nskus))),
             )
 
         if np.min(invs) < 0:
@@ -93,7 +91,7 @@ class SlotProfileDataForm(forms.Form):
 
         if np.isnan(np.sum(invs)):
             raise ValidationError(
-                _('There are non-numeric characters'),
+                _('the inventory levels file have non-numeric characters'),
             )
 
         return invs
