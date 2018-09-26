@@ -6,7 +6,8 @@ from celery import Celery
 os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'webApp.settings')
 
 app = Celery('webApp',
-             broker="amqp://wdkkpikj:IaoV-f8L_2SlD7yTxeegPX4b1oIqNms9@wasp.rmq.cloudamqp.com/wdkkpikj",
+             broker='pyamqp://guest@localhost//',
+             #broker="amqp://wdkkpikj:IaoV-f8L_2SlD7yTxeegPX4b1oIqNms9@wasp.rmq.cloudamqp.com/wdkkpikj",
              backend='rpc://',
              broker_pool_limit=1,
              )

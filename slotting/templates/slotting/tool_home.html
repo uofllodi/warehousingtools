@@ -137,6 +137,13 @@
         var rel3 = $('#rel3');
 
         frm.submit(function () {
+            var x = $("#fainter").position();
+            $('#wait').show();
+            $('#wait').css("top", x.top);
+            $('#wait').css("left", x.left);
+            $('#fainter').css("opacity", 0.2);
+            $('#section-outputs').css('display', 'none');
+
             $.ajax({
                 type: frm.attr('method'),
                 url: frm.attr('action'),
@@ -151,20 +158,14 @@
                 processData: false,
 
                 success: function (data) {
-                    var x = $("#fainter").position();
-                    $('#wait').show();
-                    $('#wait').css("top", x.top);
-                    $('#wait').css("left", x.left);
-                    $('#fainter').css("opacity", 0.2);
-                    $('#section-outputs').css('display', 'none');
-
                     if (data.task_id != null) {
                         get_task_info(data.task_id);
                     }
                 },
                 error: function (data) {
                     console.log("Something went wrong! A");
-                    $('#section-outputs').css('display', 'none');
+                    $('#fainter').css("opacity", 1);
+                    $('#wait').css('display', 'none');
                 }
             });
             return false;
@@ -187,7 +188,6 @@
                         //hide waiting message
                         $('#fainter').css("opacity", 1);
                         $('#wait').css('display', 'none');
-
                         $('#section-outputs').css('display', 'inline');
 
                         format_table('[' + data.result.x +']', '[' + data.result.N +']');
@@ -202,8 +202,6 @@
                         $('html, body').animate({
                             scrollTop: scroll
                         }, 1);
-
-
                     }
                     if (data.state != 'SUCCESS') {
                         setTimeout(function () {
