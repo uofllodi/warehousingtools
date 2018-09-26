@@ -30,7 +30,7 @@ ALLOWED_HOSTS = ['10.200.243.175', '127.0.0.1', '136.165.67.122']
 
 """
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = bool(os.environ.get('DJANGO_DEBUG', True))
+DEBUG = False
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'b_l0deb8^g^c=sog^lon$7m-6d)lw5cez_1)eegsj7ze5ci6-!')
 ALLOWED_HOSTS = ['*']
 
