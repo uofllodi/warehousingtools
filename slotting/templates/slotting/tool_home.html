@@ -48,13 +48,19 @@
                         {{ form.as_table }}
                     </table>
 
-                    <input type="submit" value="Run Model" class="button" style="margin-left: 5px" title="This may take several minutes for more than 3 slot types">
-
+                    <div>
+                      <div style="width: 30%; float: left;">
+                         <input type="submit" value="Run Model" class="button" style="margin-left: 5px" title="This may take several minutes for more than 3 slot types">
+                      </div>
+                      <div id="desc-errors" style="width: 60%; float: left; border-radius: 25px; border: 2px solid #970a0a; display: none; padding: 10px;">
+                          <ul id="display-errors"></ul>
+                      </div>
+                    </div>
                 </form>
             </div>
 
             <div id="wait" style="display: none">
-                <img src="/static/images/copper.gif" width="350" height="250" style="margin-left: auto; margin-right: auto;" />
+                <img src="/static/images/copper.gif" width="350" height="250" style="margin-left: auto; margin-right: auto; background-color:#fff;" />
                 <p id="waiting-msn" style="width: 60%; margin-left: auto; margin-right: auto; align: center">  </p>
             </div>
 
@@ -137,14 +143,23 @@
         var rel2 = $('#rel2');
         var rel3 = $('#rel3');
         var msn = $('#waiting-msn');
+        var errors = $('#display-errors');
+        var descerrors = $('#desc-errors');
 
         frm.submit(function () {
+
+            //waiting message
             var x = $("#fainter").position();
             $('#wait').show();
             $('#wait').css("top", x.top);
             $('#wait').css("left", x.left);
             $('#fainter').css("opacity", 0.2);
+
+            //reset messages
             $('#section-outputs').css('display', 'none');
+            msn.html('');
+            errors.empty();
+            descerrors.css('display', 'none');
 
             $.ajax({
                 type: frm.attr('method'),
@@ -161,33 +176,25 @@
 
                 success: function (data) {
 
-                    try {
-                        var fm =  Number(document.getElementById('id_L').value);
-                        if (fm > 2) {
-                            var computimes = [0,1,2,5,10];
-                            var time = computimes[fm];
-                            msn.html('This usually takes about ' + time + ' minutes');
+                    var fm =  Number(document.getElementById('id_L').value);
+                    if (fm > 2) {
+                        var computimes = [0, 1, 2, 5, 10];
+                        var time = computimes[fm];
+                        msn.html('This usually takes about ' + time + ' minutes');
+                    }
+
+                    if (data.task_id != null) {
+                        get_task_info(data.task_id);
+                    }
+                    else{
+                        $('#fainter').css("opacity", 1);
+                        $('#wait').css('display', 'none');
+
+                        descerrors.css('display', 'inline');
+                        for (var error in data.errors){
+                            errors.append('<li>' + data.errors[error][0].message + '</li>');
                         }
                     }
-                    catch(err) {  }
-
-                    try {
-                            if (data.task_id != null) {
-                                get_task_info(data.task_id);
-                            }
-                            else{
-                                $('#fainter').css("opacity", 1);
-                                $('#wait').css('display', 'none');
-
-                                var message = " ";
-
-                                for (var error in data.errors){
-                                    message += '\n     -  ' + data.errors[error][0].message;
-                                }
-                                alert(message)
-                            }
-                        }
-                    catch(err) {  }
 
                 },
                 error: function (data) {
@@ -246,7 +253,7 @@
                      }
                 },
                 error: function (data) {
-                    frm.html("Something went wrong! B");
+                    alert("Something went wrong! B");
                 }
             });
         }
