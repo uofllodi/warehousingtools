@@ -64,6 +64,13 @@
                 <p id="waiting-msn" style="width: 60%; margin-left: auto; margin-right: auto; align: center">  </p>
             </div>
 
+            <div id="spinner_id_hs" style="display: none">
+                <img src="/static/images/bars.gif" width="30" height="30" />
+            </div>
+            <div id="spinner_id_invs" style="display: none">
+                <img src="/static/images/bars.gif" width="30" height="30" />
+            </div>
+
             <p> {{ test_info }}</p>
         </div>
 
@@ -136,7 +143,96 @@
 
 {% block page_script %}
 
-    <script type="text/javascript">
+    <script>
+         var frm = $('#slotting-form');
+
+        (function() {
+          document.getElementById("id_hs").onchange = function(){
+              field_change("id_hs");
+          };
+        })();
+
+        (function() {
+          document.getElementById("id_invs").onchange = function(){
+              field_change("id_invs");
+          };
+        })();
+
+
+        function field_change(field_id) {
+            var files = document.getElementById(field_id).files;
+            var file = files[0];
+            if(!file){
+              return alert("No file selected.");
+            }
+            else{
+                var spin = $('#spinner_'+ field_id);
+                spin.show();
+                $("#"+field_id).after(spin);
+                $("#"+field_id).css('display', 'none');
+                getSignedRequest(file, field_id);
+            }
+        }
+
+        function getSignedRequest(file , field_id){
+            $.ajax({
+                    type: 'get',
+                    url: 'sign-s3/',
+                    data: {'filename': makeid(), 'filetype': file.type},
+
+                    success: function (data) {
+                        uploadFile(file, data.presigned, data.url, field_id);
+                    },
+                    error: function (data) {
+                        alert("Could not get signed URL with our storage service. Please report this problem");
+                    }
+            });
+        }
+
+        function uploadFile(file, presigned, url, field_id){
+          var xhr = new XMLHttpRequest();
+          xhr.open("POST", presigned.url);
+          console.log( presigned.url);
+
+          var postData = new FormData();
+          for(key in presigned.fields){
+              postData.append(key, presigned.fields[key]);
+              console.log( presigned.fields[key]);
+          }
+          postData.append('file', file);
+          console.log(postData);
+
+          xhr.onreadystatechange = function() {
+            console.log(xhr)
+
+            if(xhr.readyState === 4){
+              if(xhr.status === 200 || xhr.status === 204){
+                  $("#" + field_id).css('display', 'inline');
+                  $("#spinner_"+field_id).css('display', 'none');
+                  document.getElementById(field_id+"url").value=url;
+              }
+              else{
+
+                  alert("Could not upload file.");
+              }
+           }
+          };
+          xhr.send(postData);
+        }
+
+        function makeid() {
+          var text = "";
+          var possible = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+
+          for (var i = 0; i < 8; i++)
+            text += possible.charAt(Math.floor(Math.random() * possible.length));
+
+          return text;
+        }
+
+    </script>
+
+    <script>
         var frm = $('#slotting-form');
         var rel = $('#rel-test');
         var rel1 = $('#rel1');
@@ -148,61 +244,77 @@
 
         frm.submit(function () {
 
-            //waiting message
-            var x = $("#fainter").position();
-            $('#wait').show();
-            $('#wait').css("top", x.top);
-            $('#wait').css("left", x.left);
-            $('#fainter').css("opacity", 0.2);
+            if ( document.getElementById("id_hsurl").value == "") {
+                alert("Upload pallet heights");
+                return false;
+            }
+            else if  (document.getElementById("id_invsurl").value == "" ) {
+                alert("Upload inventory levels");
+                return false;
+            }
+            else{
+                 //waiting message
+                var x = $("#fainter").position();
+                $('#wait').show();
+                $('#wait').css("top", x.top);
+                $('#wait').css("left", x.left);
+                $('#fainter').css("opacity", 0.2);
 
-            //reset messages
-            $('#section-outputs').css('display', 'none');
-            msn.html('');
-            errors.empty();
-            descerrors.css('display', 'none');
+                //reset messages
+                $('#section-outputs').css('display', 'none');
+                msn.html('');
+                errors.empty();
+                descerrors.css('display', 'none');
 
-            $.ajax({
-                type: frm.attr('method'),
-                url: frm.attr('action'),
 
-                // Form data
-                data: new FormData($('#slotting-form')[0]),
+                //clear file fields
+                $("#id_hs").val("");
+                $("#id_invs").val("");
 
-                // Tell jQuery not to process data or worry about content-type
-                // You *must* include these options!
-                cache: false,
-                contentType: false,
-                processData: false,
+                $.ajax({
+                    type: frm.attr('method'),
+                    url: frm.attr('action'),
 
-                success: function (data) {
+                    // Form data
+                    data: new FormData($('#slotting-form')[0]),
 
-                    var fm =  Number(document.getElementById('id_L').value);
-                    if (fm > 2) {
-                        var computimes = [0, 1, 2, 5, 10];
-                        var time = computimes[fm];
-                        msn.html('This usually takes about ' + time + ' minutes');
-                    }
+                    // Tell jQuery not to process data or worry about content-type
+                    // You *must* include these options!
+                    cache: false,
+                    contentType: false,
+                    processData: false,
 
-                    if (data.task_id != null) {
-                        get_task_info(data.task_id);
-                    }
-                    else{
+                    success: function (data) {
+
+                        var fm =  Number(document.getElementById('id_L').value);
+                        if (fm > 2) {
+                            var computimes = [0, 1, 2, 5, 10];
+                            var time = computimes[fm];
+                            msn.html('This usually takes about ' + time + ' minutes');
+                        }
+
+                        if (data.task_id != null) {
+                            get_task_info(data.task_id);
+                        }
+                        else{
+                            $('#fainter').css("opacity", 1);
+                            $('#wait').css('display', 'none');
+
+                            descerrors.css('display', 'inline');
+                            for (var error in data.errors){
+                                errors.append('<li>' + data.errors[error][0].message + '</li>');
+                            }
+                        }
+
+                    },
+                    error: function (data) {
                         $('#fainter').css("opacity", 1);
                         $('#wait').css('display', 'none');
-
-                        descerrors.css('display', 'inline');
-                        for (var error in data.errors){
-                            errors.append('<li>' + data.errors[error][0].message + '</li>');
-                        }
                     }
+                });
+                return false;
+            }
 
-                },
-                error: function (data) {
-                    $('#fainter').css("opacity", 1);
-                    $('#wait').css('display', 'none');
-                }
-            });
-            return false;
         });
 
         function get_task_info(task_id) {
@@ -225,6 +337,10 @@
                         $('#wait').css('display', 'none');
                         $('#section-outputs').css('display', 'inline');
 
+                        //reset values of file urls
+                        $("#id_hsurl").val("");
+                        $("#id_invsurl").val("");
+
                         //show results
                         format_table('[' + data.result.x +']', '[' + data.result.N +']');
                         $('#div_graph1').html( data.result.div_graph1);
@@ -232,12 +348,13 @@
                         $('#div_graph2').html( data.result.div_graph2);
                         $('#script_graph2').html(data.result.script_graph2);
 
-                        // this are the results
+                        // scroll to the results
                         var scroll = $(window).scrollTop();
                         scroll = scroll + 800;
                         $('html, body').animate({
                             scrollTop: scroll
                         }, 1);
+
                     }
 
                      if (data.state == 'FAILURE') {
