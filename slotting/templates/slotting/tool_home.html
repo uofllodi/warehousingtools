@@ -287,11 +287,9 @@
                     success: function (data) {
 
                         var fm =  Number(document.getElementById('id_L').value);
-                        if (fm > 2) {
-                            var computimes = [0, 1, 2, 5, 10];
-                            var time = computimes[fm];
-                            msn.html('This usually takes about ' + time + ' minutes');
-                        }
+                        var computimes = [0, 1, 2, 5, 10];
+                        var time = computimes[fm];
+                        msn.html('This usually takes about ' + time + ' minutes, but varies depending on servers availability.');
 
                         if (data.task_id != null) {
                             get_task_info(data.task_id);
