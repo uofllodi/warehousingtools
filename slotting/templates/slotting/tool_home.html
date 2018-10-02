@@ -162,9 +162,9 @@
         }
 
         //var csrftoken = getCookie('csrftoken');
+        //var csrftoken = $(":input[name='csrfmiddlewaretoken']").val();
 
         var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-        alert(csrftoken);
 
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection

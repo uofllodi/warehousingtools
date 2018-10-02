@@ -7,6 +7,7 @@ Jinja2==2.10
 MarkupSafe==1.0
 numpy==1.15.1
 packaging==17.1
+psycopg2==2.7.5
 pyparsing==2.2.0
 python-dateutil==2.7.3
 pytz==2018.5
