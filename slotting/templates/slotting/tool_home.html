@@ -144,7 +144,39 @@
 {% block page_script %}
 
     <script>
-         var frm = $('#slotting-form');
+        // using jQuery
+        function getCookie(name) {
+            var cookieValue = null;
+            if (document.cookie && document.cookie !== '') {
+                var cookies = document.cookie.split(';');
+                for (var i = 0; i < cookies.length; i++) {
+                    var cookie = jQuery.trim(cookies[i]);
+                    // Does this cookie string begin with the name we want?
+                    if (cookie.substring(0, name.length + 1) === (name + '=')) {
+                        cookieValue = decodeURIComponent(cookie.substring(name.length + 1));
+                        break;
+                    }
+                }
+            }
+            return cookieValue;
+        }
+        var csrftoken = Cookies.get('csrftoken');
+
+        function csrfSafeMethod(method) {
+            // these HTTP methods do not require CSRF protection
+            return (/^(GET|HEAD|OPTIONS|TRACE)$/.test(method));
+        }
+
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!csrfSafeMethod(settings.type) && !this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        })
+    </script>
+
+    <script>
 
         (function() {
           document.getElementById("id_hs").onchange = function(){
@@ -157,7 +189,6 @@
               field_change("id_invs");
           };
         })();
-
 
         function field_change(field_id) {
             var files = document.getElementById(field_id).files;
@@ -241,20 +272,9 @@
         var msn = $('#waiting-msn');
         var errors = $('#display-errors');
         var descerrors = $('#desc-errors');
-        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
-
-        // set csrf header
-        $.ajaxSetup({
-            beforeSend: function(xhr, settings) {
-                if (!this.crossDomain) {
-                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
-                }
-            }
-        });
+        //var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
 
         frm.submit(function () {
-
-
 
             if ( document.getElementById("id_hsurl").value == "") {
                 alert("Upload pallet heights");
