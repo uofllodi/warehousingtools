@@ -72,6 +72,7 @@
             </div>
 
             <p> {{ test_info }}</p>
+            <p id="cookies-please" style="display: none;"> Please enable cookies to use the site and reload page. </p>
         </div>
 
     </section>
@@ -157,7 +158,7 @@
                     xhr.setRequestHeader("X-CSRFToken", csrftoken);
                 }
             }
-        })
+        });
 
         function are_cookies_enabled()
         {
@@ -171,16 +172,15 @@
             return (cookieEnabled);
         }
 
-
         $(document).ready(function() {
             var cookiesEnabled = are_cookies_enabled();
             if(!cookiesEnabled){
                 //cookies are not enabled
                 $('#fainter').css('display', 'none');
-                alert('Please enable cookies to use the site');
+                $('#cookies-please').css('display', 'inline');
+
             }
         });
-
 
     </script>
 
