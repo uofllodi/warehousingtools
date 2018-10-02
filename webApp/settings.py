@@ -159,7 +159,7 @@ BROKER_HEARTBEAT = None # We're using TCP keep-alive instead
 BROKER_CONNECTION_TIMEOUT = 30 # May require a long timeout due to Linux DNS timeouts etc
 CELERY_EVENT_QUEUE_EXPIRES = 60 # Will delete all celeryev. queues without consumers after 1 minute.
 CELERYD_PREFETCH_MULTIPLIER = 1 # Disable prefetching, it's causes problems and doesn't help performance
-CELERYD_CONCURRENCY = 50
+CELERYD_CONCURRENCY = 8
 
 AWS_ACCESS_KEY_ID = os.environ.get('AWS_ACCESS_KEY_ID')
 AWS_SECRET_ACCESS_KEY = os.environ.get('AWS_SECRET_ACCESS_KEY')
