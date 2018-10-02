@@ -10,6 +10,11 @@ app = Celery('webApp',
              broker="amqp://wdkkpikj:IaoV-f8L_2SlD7yTxeegPX4b1oIqNms9@wasp.rmq.cloudamqp.com/wdkkpikj",
              backend='rpc://',
              broker_pool_limit=1,
+             broker_heartbeat=None,
+             broker_connection_timeout=30,  # May require a long timeout due to Linux DNS timeouts etc
+             event_queue_expires=60,  # Will delete all celeryev. queues without consumers after 1 minute.
+             worker_prefetch_multiplier=1,  # Disable prefetching, it's causes problems and doesn't help performance
+             worker_concurrency=50,
              )
 
 # Using a string here means the worker doesn't have to serialize
