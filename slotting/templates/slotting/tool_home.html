@@ -241,8 +241,20 @@
         var msn = $('#waiting-msn');
         var errors = $('#display-errors');
         var descerrors = $('#desc-errors');
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+
+        // set csrf header
+        $.ajaxSetup({
+            beforeSend: function(xhr, settings) {
+                if (!this.crossDomain) {
+                    xhr.setRequestHeader("X-CSRFToken", csrftoken);
+                }
+            }
+        });
 
         frm.submit(function () {
+
+
 
             if ( document.getElementById("id_hsurl").value == "") {
                 alert("Upload pallet heights");
@@ -253,6 +265,7 @@
                 return false;
             }
             else{
+
                  //waiting message
                 var x = $("#fainter").position();
                 $('#wait').show();
@@ -367,7 +380,7 @@
                      }
                 },
                 error: function (data) {
-                    alert("There was an problem with internet connection. Please try later and report the issue to support.");
+                    alert("There was an problem with internet connection. Refresh the page and try again. Please report the issue to support.");
                     //hide waiting message
                     rel.html('');
                     $('#fainter').css("opacity", 1);
