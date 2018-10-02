@@ -160,7 +160,11 @@
             }
             return cookieValue;
         }
-        var csrftoken = getCookie('csrftoken');
+
+        //var csrftoken = getCookie('csrftoken');
+
+        var csrftoken = jQuery("[name=csrfmiddlewaretoken]").val();
+        alert(csrftoken);
 
         function csrfSafeMethod(method) {
             // these HTTP methods do not require CSRF protection
