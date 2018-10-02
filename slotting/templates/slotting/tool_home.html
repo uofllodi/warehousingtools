@@ -158,6 +158,30 @@
                 }
             }
         })
+
+        function are_cookies_enabled()
+        {
+            var cookieEnabled = (navigator.cookieEnabled) ? true : false;
+
+            if (typeof navigator.cookieEnabled == "undefined" && !cookieEnabled)
+            {
+                document.cookie="testcookie";
+                cookieEnabled = (document.cookie.indexOf("testcookie") != -1) ? true : false;
+            }
+            return (cookieEnabled);
+        }
+
+
+        $(document).ready(function() {
+            var cookiesEnabled = are_cookies_enabled();
+            if(!cookiesEnabled){
+                //cookies are not enabled
+                $('#fainter').css('display', 'none');
+                alert('Please enable cookies to use the site');
+            }
+        });
+
+
     </script>
 
     <script>
