@@ -354,12 +354,11 @@
                         }, 1);
 
                     }
-
                      if (data.state == 'FAILURE') {
                         $('#fainter').css("opacity", 1);
                         $('#wait').css('display', 'none');
                         $('#section-outputs').css('display', 'inline');
-                        alert("Something went wrong on our server trying to solve the problem.");
+                        alert("Something went wrong on our server trying to solve the problem. Please try later and report the issue to support.");
                      }
                      else if (data.state != 'SUCCESS') {
                             setTimeout(function () {
@@ -368,7 +367,12 @@
                      }
                 },
                 error: function (data) {
-                    alert("Something went wrong! B");
+                    alert("There was an problem with internet connection. Please try later and report the issue to support.");
+                    //hide waiting message
+                    rel.html('');
+                    $('#fainter').css("opacity", 1);
+                    $('#wait').css('display', 'none');
+                    $('#section-outputs').css('display', 'inline');
                 }
             });
         }
