@@ -34,7 +34,6 @@ DEBUG = False
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'b_l0deb8^g^c=sog^lon$7m-6d)lw5cez_1)eegsj7ze5ci6-!')
 ALLOWED_HOSTS = ['*']
 
-
 SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
 CSRF_COOKIE_SECURE = True
 SESSION_COOKIE_SECURE = True
