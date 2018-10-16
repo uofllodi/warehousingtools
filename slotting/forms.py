@@ -88,7 +88,7 @@ class SlotProfileDataForm(forms.Form):
                     _(' The pallet heights file could not be read as an array of numbers'),
                 )
 
-            delete_file(urlname)
+            #delete_file(urlname)
 
             nskus = int(self.cleaned_data.get("nskus"))
 
@@ -129,7 +129,7 @@ class SlotProfileDataForm(forms.Form):
                     _('The inventory levels file could not be read as an 2D array of numbers'),
                 )
 
-            delete_file(urlname)
+            #delete_file(urlname)
             nskus = int(self.cleaned_data.get("nskus"))
 
             if len(invs.shape) != 2:

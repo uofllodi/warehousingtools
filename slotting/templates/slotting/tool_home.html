@@ -311,6 +311,7 @@
                 $("#id_hs").val("");
                 $("#id_invs").val("");
 
+
                 $.ajax({
                     type: frm.attr('method'),
                     url: frm.attr('action'),
@@ -376,8 +377,10 @@
                         $('#section-outputs').css('display', 'inline');
 
                         //reset values of file urls
-                        $("#id_hsurl").val("");
-                        $("#id_invsurl").val("");
+                        //$("#id_hsurl").val("");
+                        //$("#id_invsurl").val("");
+                        $("#id_hs").parent().parent().css('display', 'none');
+                        $("#id_invs").parent().parent().css('display', 'none');
 
                         //show results
                         format_table('[' + data.result.x +']', '[' + data.result.N +']');
