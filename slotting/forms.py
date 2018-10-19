@@ -46,17 +46,21 @@ def delete_file(urlname):
 class SlotProfileDataForm(forms.Form):
     L = forms.IntegerField(min_value=2, max_value=4, label='Number of slot types', initial=3 )
     nskus = forms.IntegerField(min_value=10, max_value=1000, label='Number of skus', initial=100)
-    alpha = forms.DecimalField(min_value=50, max_value=99.99999, label='Desired Storage Service Level (%)', initial=97.5)
-    b = forms.DecimalField(min_value=0, label='Vertical clearance within slot (inches)', initial=10)
-    M = forms.IntegerField(min_value=1, label= 'Pallet positions per slot', initial=2)
-    hs = forms.FileField(label = mark_safe("Pallet height of each sku (inches) <i class='fa fa-question-circle' aria-hidden='true' title='Upload a csv file with one column and as many rows as skus, " +
+    alpha = forms.DecimalField(min_value=50, max_value=99.99999, label=mark_safe(" Desired Storage Service Level (%) " +
+                              "<i class ='fa fa-question-circle' aria-hidden='true' title= 'Probability that in one day (or period of time) the storage area " +
+                              "can stow all pallets received.'"), initial=97.5)
+    b = forms.DecimalField(min_value=0, label= mark_safe("Vertical clearance within slot (inches)  " +
+                                                         "<i class ='fa fa-question-circle' aria-hidden='true' title=" +
+                                                         "'Required space between the top of the pallet and the beam of the slot above'"), initial=4)
+    M = forms.IntegerField(min_value=1, label='Pallet positions per slot', initial=2)
+    hs = forms.FileField(label=mark_safe("Pallet height of each sku (inches) <i class='fa fa-question-circle' aria-hidden='true' title='Upload a csv file with one column and as many rows as skus, " +
                                            "such that the pallet height for SKU 1 is the cell on the first row of the column, the pallet height for SKU 2 is the cell on the second row of the column. " +
-                                           "Do not include labels'></i>"),
-                         help_text = mark_safe("Download an <a href='/static/files/hs.csv'> example </a> with 100 skus"),
+                                           "Do not include labels. Rows must be in the same order than in the file of inventory levels'></i>"),
+                         help_text=mark_safe("Download an <a href='/static/files/hs.csv'> example </a> with 100 skus"),
                          widget=forms.FileInput(attrs={'accept': ".csv"}), required=False) #validators = [validators.validate_hs])
-    invs = forms.FileField(label= mark_safe("Inventory level of each sku <i class='fa fa-question-circle' aria-hidden='true' title='Upload a csv file with as" +
+    invs = forms.FileField(label=mark_safe("Inventory level of each sku <i class='fa fa-question-circle' aria-hidden='true' title='Upload a csv file with as" +
                                             " many rows as skus and as many columns as time-periods, such that the number of pallets of SKU 3 at period 5 is the cell on the third row and fifth column. " +
-                                            " Do not include labels. Include at least 100 time-periods for a good analysis.'></i>"),
+                                            " Do not include labels. Rows must be in the same order than in the file of pallet heights.'></i>"),
                            help_text= mark_safe("Download an <a href='/static/files/invs.csv'> example </a> with 100 skus"),
                            widget=forms.FileInput(attrs={'accept': ".csv"}), required=False)
     hsurl = forms.CharField(widget=forms.HiddenInput(), required=False)

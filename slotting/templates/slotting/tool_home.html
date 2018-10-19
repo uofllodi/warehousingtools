@@ -10,7 +10,7 @@
 {% endblock%}
 
 {% block tool_name %}
-    Slot profile in unit-load warehouses
+    How to design slots in unit-load warehouses
 {% endblock%}
 
 {% block tool_desc %}
@@ -37,10 +37,18 @@
                 <p> Our model determines the best set of slot heights \( (x) \) and quantities \( (N) \) according to the pallet heights
                     and inventory levels provided.  The objective is to minimize the sum of the heights of all slot as a
                     surrogate of the warehouse footprint, and the model guarantees that the warehouse desired storage
-                    service level. <!-- We assume that pallets of a sku are always of the same pallet height
-                    and that the warehouse uses a shared storage policy, i.e.,
-                    a pallet can be stowed in any slot higher than itself. -->
+                    service level. <br />
+                    <br />
+                    With slot we mean the elemental storage unit of a rack-bay in a pallet rack. Our model assumes that
+                    all slots in the racking are single deep, but can contain multiple pallet in width. For example, the rack-bay below
+                    has 4 slots with 2 pallet positions per slot in width. We also assume that pallets of a sku are always
+                    of the same pallet height and that the warehouse uses a shared storage policy, i.e., a pallet can be stowed in any slot where it fits.
                 </p>
+
+                <div style="margin: 50px auto; width: 375px;" >
+                    <img src="/static/images/parameters_explain.png" width="100%" />
+                </div>
+
 
                 <form action="" method="post" enctype="multipart/form-data"  id='slotting-form'>
                     {%  csrf_token %}
