@@ -8,7 +8,7 @@ from . import tasks
 import boto3
 from botocore.client import Config
 from django.conf import settings
-
+import numpy as np
 
 def read_params(request, form):
     alpha = form.cleaned_data['alpha']
@@ -16,6 +16,9 @@ def read_params(request, form):
     b = form.cleaned_data['b']
     hs = form.cleaned_data['hsurl'] + b
     invs = form.cleaned_data['invsurl']
+    ind = np.argsort(hs)
+    hs = hs[ind]
+    invs = invs[ind, :]
     M = form.cleaned_data['M']
     return hs, invs, alpha, L, M
 

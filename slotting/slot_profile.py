@@ -24,6 +24,7 @@ from scipy.optimize import minimize
 
 class SlotHeights:
     def __init__(self, hs, invs, alpha, L, M):
+        #heights must be sorted
         self.hs = hs
         self.invs = invs
         self.alpha = alpha
